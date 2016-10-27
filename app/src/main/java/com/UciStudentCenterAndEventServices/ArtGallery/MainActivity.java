@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                 if (content != null) {
                     EstimoteCloudBeaconDetails beaconDetails = (EstimoteCloudBeaconDetails) content;
                     name = "You're in " + beaconDetails.getBeaconName() + "'s range!";
-                    //backgroundColor = BACKGROUND_COLORS.get(beaconDetails.getBeaconColor());
+                    backgroundColor = BACKGROUND_COLORS.get(beaconDetails.getBeaconColor());
 
                     exhibitInfo = getExhibitInfo(beaconDetails);
                     pieceInfo = getPieceInfo(beaconDetails).description;
@@ -85,8 +85,8 @@ public class MainActivity extends AppCompatActivity {
                 ((TextView) findViewById(R.id.artExhibitTitle)).setText(exhibitInfo);
                 ((TextView) findViewById(R.id.artPieceName)).setText(name);
                 ((TextView) findViewById(R.id.artPieceInfo)).setText(pieceInfo);
-                /*findViewById(R.id.relativeLayout).setBackgroundColor(
-                        backgroundColor != null ? backgroundColor : BACKGROUND_COLOR_NEUTRAL);*/
+                findViewById(R.id.relativeLayout).setBackgroundColor(
+                        backgroundColor != null ? backgroundColor : BACKGROUND_COLOR_NEUTRAL);
             }
         });
     }
