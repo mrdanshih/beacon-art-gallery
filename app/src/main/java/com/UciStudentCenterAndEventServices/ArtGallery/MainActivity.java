@@ -6,16 +6,13 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.UciStudentCenterAndEventServices.ArtGallery.estimote.BeaconID;
-import com.UciStudentCenterAndEventServices.ArtGallery.estimote.EstimoteCloudBeaconDetails;
-import com.UciStudentCenterAndEventServices.ArtGallery.estimote.EstimoteCloudBeaconDetailsFactory;
-import com.UciStudentCenterAndEventServices.ArtGallery.estimote.ProximityContentManager;
+import com.estimote.sdk.Beacon;
+import com.estimote.sdk.BeaconManager;
+import com.estimote.sdk.Region;
 import com.estimote.sdk.SystemRequirementsChecker;
-import com.estimote.sdk.cloud.model.Color;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
+import java.util.UUID;
 
 import static com.UciStudentCenterAndEventServices.ArtGallery.R.drawable.beacon;
 import static com.UciStudentCenterAndEventServices.ArtGallery.R.drawable.blueberries;
@@ -27,20 +24,14 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
 
-    private static final Map<Color, Integer> BACKGROUND_COLORS = new HashMap<>();
+    private BeaconManager beaconManager;
+    private Region region;
 
-    static {
-        BACKGROUND_COLORS.put(Color.ICY_MARSHMALLOW, android.graphics.Color.rgb(109, 170, 199));
-        BACKGROUND_COLORS.put(Color.BLUEBERRY_PIE, android.graphics.Color.rgb(98, 84, 158));
-        BACKGROUND_COLORS.put(Color.MINT_COCKTAIL, android.graphics.Color.rgb(155, 186, 160));
-    }
-
-    private static final int BACKGROUND_COLOR_NEUTRAL = android.graphics.Color.rgb(160, 169, 172);
-
-    private ProximityContentManager proximityContentManager;
-
+    //IceMintMajor represents a fictional "Ice-Mint Exhibit"
+    //Individual exhibits have art pieces - this is represented by majorID = exhibit, minorID = piece
     final int iceMintMajor = 12345;
 
+    //Hardcoded UUID/IDs for the test app
     String blueberryUUID = "B9407F30-F5F8-466E-AFF9-25556B57FE6D";
     int blueberryMajorID = 20522, blueberryMinorID = 62874;
 
@@ -54,41 +45,33 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        proximityContentManager = new ProximityContentManager(this,
-                Arrays.asList(
-                        new BeaconID(blueberryUUID, blueberryMajorID, blueberryMinorID),
-                        new BeaconID(iceUUID, iceMajorID, iceMinorID),
-                        new BeaconID(mintUUID, mintMajorID, mintMinorID)),
-                new EstimoteCloudBeaconDetailsFactory());
-        proximityContentManager.setListener(new ProximityContentManager.Listener() {
+
+        beaconManager = new BeaconManager(this);
+        beaconManager.setRangingListener(new BeaconManager.RangingListener() {
             @Override
-            public void onContentChanged(Object content) {
+            public void onBeaconsDiscovered(Region region, List<Beacon> beaconList) {
                 String name;
                 String exhibitInfo = "";
                 String pieceInfo = "";
-                Integer backgroundColor;
 
-                if (content != null) {
-                    EstimoteCloudBeaconDetails beaconDetails = (EstimoteCloudBeaconDetails) content;
-                    name = "You're in " + beaconDetails.getBeaconName() + "'s range!";
-                    backgroundColor = BACKGROUND_COLORS.get(beaconDetails.getBeaconColor());
+                if(!beaconList.isEmpty()){
+                    Beacon nearestBeacon = beaconList.get(0);
 
-                    exhibitInfo = getExhibitInfo(beaconDetails);
-                    pieceInfo = getPieceInfo(beaconDetails).description;
-                    setCurrentImage(getPieceInfo(beaconDetails).image);
+                    name = getPieceName(nearestBeacon);
+                    exhibitInfo = getExhibitInfo(nearestBeacon);
+                    pieceInfo = getPieceInfo(nearestBeacon).description;
 
-                } else {
-                    name = "No art pieces in range.";
-                    backgroundColor = null;
-                    pieceInfo = "";
+
+                    setCurrentImage(getPieceInfo(nearestBeacon).image);
+                    ((TextView) findViewById(R.id.artExhibitTitle)).setText(exhibitInfo);
+                    ((TextView) findViewById(R.id.artPieceName)).setText(name);
+                    ((TextView) findViewById(R.id.artPieceInfo)).setText(pieceInfo);
                 }
-                ((TextView) findViewById(R.id.artExhibitTitle)).setText(exhibitInfo);
-                ((TextView) findViewById(R.id.artPieceName)).setText(name);
-                ((TextView) findViewById(R.id.artPieceInfo)).setText(pieceInfo);
-                findViewById(R.id.relativeLayout).setBackgroundColor(
-                        backgroundColor != null ? backgroundColor : BACKGROUND_COLOR_NEUTRAL);
             }
         });
+
+        region = new Region("Art Gallery Region", UUID.fromString(blueberryUUID), null, null);
+
     }
 
     public void setCurrentImage(int imageNum){
@@ -106,35 +89,62 @@ public class MainActivity extends AppCompatActivity {
             Log.e(TAG, "Read more about what's required at: http://estimote.github.io/Android-SDK/JavaDocs/com/estimote/sdk/SystemRequirementsChecker.html");
             Log.e(TAG, "If this is fixable, you should see a popup on the app's screen right now, asking to enable what's necessary");
         } else {
-            Log.d(TAG, "Starting ProximityContentManager content updates");
-            proximityContentManager.startContentUpdates();
+            Log.d(TAG, "Starting BeaconManager ranging.");
+
+            beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
+                @Override
+                //Starts the ranging of the beacons
+                public void onServiceReady() {
+                    beaconManager.startRanging(region);
+                }
+            });
         }
     }
 
     @Override
     protected void onPause() {
+        beaconManager.stopRanging(region);
+        Log.d(TAG, "Stopping Beacon ranging.");
+
         super.onPause();
-        Log.d(TAG, "Stopping ProximityContentManager content updates");
-        proximityContentManager.stopContentUpdates();
+
+
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        proximityContentManager.destroy();
     }
 
-    private String getExhibitInfo(EstimoteCloudBeaconDetails beaconDetails){
+    private String getExhibitInfo(Beacon beaconDetails){
         if(beaconDetails.getMajor() == iceMintMajor){
             return "You are in the Ice-Mint Exhibit.";
+
         }else if(beaconDetails.getMajor() == blueberryMajorID){
             return "You are in the Blueberry exhibit.";
+
         }else{
             return "Unknown exhibit! The ID is " + beaconDetails.getMajor();
         }
     }
 
-    private PieceInfo getPieceInfo(EstimoteCloudBeaconDetails beaconDetails){
+    private String getPieceName(Beacon beaconDetails){
+        if(beaconDetails.getMinor() == blueberryMinorID){
+            return "Blueberry";
+
+        }else if(beaconDetails.getMinor() == mintMinorID){
+            return "Mint";
+
+        }else if(beaconDetails.getMinor() == iceMinorID) {
+            return "Ice";
+
+        }else{
+            return "UNKNOWN";
+        }
+    }
+
+
+    private PieceInfo getPieceInfo(Beacon beaconDetails){
         if(beaconDetails.getMinor() == blueberryMinorID){
             return new PieceInfo("Blueberries are blue.", blueberries);
 
@@ -145,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
             return new PieceInfo("Ice is frozen water.", ice);
 
         }else{
-            return new PieceInfo("Unknown piece! The ID is " + beaconDetails.getMajor(), beacon);
+            return new PieceInfo("Unknown piece! The ID is " + beaconDetails.getMinor(), beacon);
         }
 
     }
