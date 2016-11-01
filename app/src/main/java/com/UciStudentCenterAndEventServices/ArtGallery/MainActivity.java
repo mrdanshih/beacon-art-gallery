@@ -1,5 +1,8 @@
 package com.UciStudentCenterAndEventServices.ArtGallery;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +17,7 @@ import com.estimote.sdk.SystemRequirementsChecker;
 
 import org.w3c.dom.Text;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -64,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements ExhibitConnection
                 String pieceTitle;
                 String pieceInfo;
                 String beaconID;
+                String imageURL;
 
                 if(!beaconList.isEmpty()){
                     Beacon nearestBeacon = beaconList.get(0);
@@ -73,13 +78,19 @@ public class MainActivity extends AppCompatActivity implements ExhibitConnection
                     pieceTitle = artPiece.title;
                     pieceInfo = artPiece.blurb;
                     beaconID = artPiece.beaconMajorId + "";
+                    imageURL = artPiece.pictureUrl;
 
+                    System.out.println(imageURL);
 
-                    //setCurrentImage(getPieceInfo(nearestBeacon).image);
                     ((TextView) findViewById(R.id.artistName)).setText(artistName);
                     ((TextView) findViewById(R.id.beaconID)).setText(beaconID);
                     ((TextView) findViewById(R.id.artPieceName)).setText(pieceTitle);
                     ((TextView) findViewById(R.id.artPieceInfo)).setText(pieceInfo);
+
+                    //Download and set image.
+                    DownloadImageTask task = new DownloadImageTask((ImageView) findViewById(R.id.artPieceImage));
+                    task.execute(imageURL);
+
                 }
             }
         });
@@ -180,6 +191,36 @@ public class MainActivity extends AppCompatActivity implements ExhibitConnection
     }
 
 
+    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
 
+        public DownloadImageTask(ImageView bmImage) {
+            this.bmImage = bmImage;
+        }
+
+        protected Bitmap doInBackground(String[] url) {
+            //There's only one URL - the one passed in.
+            String urldisplay = url[0];
+
+            Bitmap imageBitmap = null;
+
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                imageBitmap = BitmapFactory.decodeStream(in);
+
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return imageBitmap;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            bmImage.setImageBitmap(result);
+        }
+    }
 
 }
+
+
+

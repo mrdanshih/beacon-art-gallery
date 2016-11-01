@@ -2,103 +2,85 @@
 <items version="2" >
 
     <item
-        is-multidex="true"
-        jar="/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/exploded-aar/com.estimote/sdk/0.10.8/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="23.0.3"
-        sha1="640af651fe94032b8f34112aabd351df29d3e2df">
-        <dex dex="/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.estimote-sdk-0.10.8_cb439efa590db621b6831b17f10887de132097e7/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/danielshih/AndroidStudioProjects/ArtGallery/app/libs/universal-image-loader-1.9.5.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="23.0.3"
-        sha1="442dbfb517b9ab5cb5c6da7ebf8cc28ec5bd0375">
-        <dex dex="/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/transforms/dex/debug/folders/1000/2/universal-image-loader-1.9.5_28725053eaeb667cc12cde90aede1ab8ac40afce/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
+        is-multidex="false"
         jar="/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.0/jars/classes.jar"
-        jumboMode="true"
+        jumboMode="false"
         optimize="true"
         revision="23.0.3"
         sha1="ddde541c289c8b816a8f8fd6c325d80788c522a6">
-        <dex dex="/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-v4-23.1.0_2236d3e75293d546a2c1693134a5139e555098a2/classes.dex" />
+        <dex dex="/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/pre-dexed/debug/com.android.support-support-v4-23.1.0_2236d3e75293d546a2c1693134a5139e555098a2.jar" />
     </item>
     <item
-        is-multidex="true"
-        jar="/Users/danielshih/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/23.1.0/support-annotations-23.1.0.jar"
-        jumboMode="true"
+        is-multidex="false"
+        jar="/Users/danielshih/AndroidStudioProjects/ArtGallery/app/libs/universal-image-loader-1.9.5.jar"
+        jumboMode="false"
         optimize="true"
         revision="23.0.3"
-        sha1="92e3fc113ec3ee36b64603a38857b95700025633">
-        <dex dex="/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-23.1.0_5523777895b2fb66a3953cd6aa10fe8cfb6c0820/classes.dex" />
+        sha1="442dbfb517b9ab5cb5c6da7ebf8cc28ec5bd0375">
+        <dex dex="/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/pre-dexed/debug/universal-image-loader-1.9.5_28725053eaeb667cc12cde90aede1ab8ac40afce.jar" />
     </item>
     <item
-        is-multidex="true"
-        jar="/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="23.0.3"
-        sha1="e7c9bf62034315915bbc18c39d62f30d1edc7cc4">
-        <dex dex="/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_9ca60fd9d286f8efdf4f38e694fe72bc78b4695a/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/exploded-aar/com.android.support/design/23.1.0/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="23.0.3"
-        sha1="19026d31f5d3ae868db81319671a642be5fbba08">
-        <dex dex="/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-design-23.1.0_8f66df7e7f2bdf8b024dc0a7a45cdafb3b686de5/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="23.0.3"
-        sha1="7a451a269feeb02f00787b4a4ceda9adf5c12453">
-        <dex dex="/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_bd529dac8f856964f17c1bf4eeecd1005fb9ee49/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
+        is-multidex="false"
         jar="/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.0/jars/libs/internal_impl-23.1.0.jar"
-        jumboMode="true"
+        jumboMode="false"
         optimize="true"
         revision="23.0.3"
         sha1="8716243bf04bae8d6c9ca94d27b9a9be7236f0a3">
-        <dex dex="/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-23.1.0_4e4e16bd7bc1af2b40861c614377a0e649eab7e3/classes.dex" />
+        <dex dex="/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/pre-dexed/debug/internal_impl-23.1.0_4e4e16bd7bc1af2b40861c614377a0e649eab7e3.jar" />
     </item>
     <item
-        is-multidex="true"
-        jar="/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/jars/classes.jar"
-        jumboMode="true"
+        is-multidex="false"
+        jar="/Users/danielshih/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/23.1.0/support-annotations-23.1.0.jar"
+        jumboMode="false"
         optimize="true"
         revision="23.0.3"
-        sha1="57ae0d750ff83f0c738d21720224ac7ea866a094">
-        <dex dex="/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-appcompat-v7-23.1.0_90abe9deffa1ae8e0be66bac88a364b6a1865e26/classes.dex" />
+        sha1="92e3fc113ec3ee36b64603a38857b95700025633">
+        <dex dex="/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/pre-dexed/debug/support-annotations-23.1.0_5523777895b2fb66a3953cd6aa10fe8cfb6c0820.jar" />
     </item>
     <item
-        is-multidex="true"
-        jar="/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/23.1.0/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="23.0.3"
-        sha1="3f151e49c316a5ab2c065969a3b3b55ef9b393fc">
-        <dex dex="/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-recyclerview-v7-23.1.0_e8651cd72936df2c63476505757a64fbfe357854/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
+        is-multidex="false"
         jar="/Users/danielshih/AndroidStudioProjects/ArtGallery/app/libs/gson-2.8.0.jar"
-        jumboMode="true"
+        jumboMode="false"
         optimize="true"
         revision="23.0.3"
         sha1="c4ba5371a29ac9b2ad6129b1d39ea38750043eff">
-        <dex dex="/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/transforms/dex/debug/folders/1000/2/gson-2.8.0_a34fa64dc153fb85669b9118455374c3f024f595/classes.dex" />
+        <dex dex="/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/pre-dexed/debug/gson-2.8.0_a34fa64dc153fb85669b9118455374c3f024f595.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/exploded-aar/com.android.support/design/23.1.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="19026d31f5d3ae868db81319671a642be5fbba08">
+        <dex dex="/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/pre-dexed/debug/com.android.support-design-23.1.0_8f66df7e7f2bdf8b024dc0a7a45cdafb3b686de5.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/exploded-aar/com.estimote/sdk/0.10.8/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="640af651fe94032b8f34112aabd351df29d3e2df">
+        <dex dex="/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/pre-dexed/debug/com.estimote-sdk-0.10.8_cb439efa590db621b6831b17f10887de132097e7.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/23.1.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="3f151e49c316a5ab2c065969a3b3b55ef9b393fc">
+        <dex dex="/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/pre-dexed/debug/com.android.support-recyclerview-v7-23.1.0_e8651cd72936df2c63476505757a64fbfe357854.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="57ae0d750ff83f0c738d21720224ac7ea866a094">
+        <dex dex="/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/pre-dexed/debug/com.android.support-appcompat-v7-23.1.0_90abe9deffa1ae8e0be66bac88a364b6a1865e26.jar" />
     </item>
 
 </items>

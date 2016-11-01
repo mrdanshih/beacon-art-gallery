@@ -32,7 +32,7 @@ public class ExhibitConnection extends AsyncTask<Void, Void, ArrayList<ExhibitPi
         delegate.processFinish(result);
     }
 
-    public static ArrayList<ExhibitPiece> getExhibitInfo() {
+    private static ArrayList<ExhibitPiece> getExhibitInfo() {
         ArrayList<ExhibitPiece> piecesList = new ArrayList<ExhibitPiece>();
 
         JsonArray exhibitArray = getJsonArray();
@@ -99,4 +99,5 @@ public class ExhibitConnection extends AsyncTask<Void, Void, ArrayList<ExhibitPi
 
 
 }
+
 
