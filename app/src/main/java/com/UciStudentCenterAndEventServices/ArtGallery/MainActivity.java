@@ -12,6 +12,8 @@ import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.Region;
 import com.estimote.sdk.SystemRequirementsChecker;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -22,7 +24,7 @@ import static com.UciStudentCenterAndEventServices.ArtGallery.R.drawable.ice;
 import static com.UciStudentCenterAndEventServices.ArtGallery.R.drawable.mint;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ExhibitConnection.AsyncResponse{
 
     private static final String TAG = "MainActivity";
 
@@ -43,14 +45,13 @@ public class MainActivity extends AppCompatActivity {
     String mintUUID = "B9407F30-F5F8-466E-AFF9-25556B57FE6D";
     int mintMajorID = 12345, mintMinorID = 45368;
 
+    ArrayList<ExhibitPiece> piecesList;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //REMOVE THIS
-        if(android.os.Build.VERSION.SDK_INT > 9){
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-        }
-
+        //Does the fetching of the database (network process) using Async task
+        new ExhibitConnection(this).execute();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -60,19 +61,23 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onBeaconsDiscovered(Region region, List<Beacon> beaconList) {
                 String artistName;
-                String pieceTitle = "";
-                String pieceInfo = "";
+                String pieceTitle;
+                String pieceInfo;
+                String beaconID;
 
                 if(!beaconList.isEmpty()){
                     Beacon nearestBeacon = beaconList.get(0);
 
-                    artistName = getPieceInfo(nearestBeacon).artistName;
-                    pieceTitle = getPieceInfo(nearestBeacon).title;
-                    pieceInfo = getPieceInfo(nearestBeacon).blurb;
+                    ExhibitPiece artPiece = getPieceInfo(nearestBeacon);
+                    artistName = artPiece.artistName;
+                    pieceTitle = artPiece.title;
+                    pieceInfo = artPiece.blurb;
+                    beaconID = artPiece.beaconMajorId + "";
 
 
                     //setCurrentImage(getPieceInfo(nearestBeacon).image);
                     ((TextView) findViewById(R.id.artistName)).setText(artistName);
+                    ((TextView) findViewById(R.id.beaconID)).setText(beaconID);
                     ((TextView) findViewById(R.id.artPieceName)).setText(pieceTitle);
                     ((TextView) findViewById(R.id.artPieceInfo)).setText(pieceInfo);
                 }
@@ -81,6 +86,11 @@ public class MainActivity extends AppCompatActivity {
 
         region = new Region("Art Gallery Region", UUID.fromString(blueberryUUID), null, null);
 
+    }
+
+    @Override
+    public void processFinish(ArrayList<ExhibitPiece> result){
+        piecesList = result;
     }
 
     public void setCurrentImage(int imageNum){
@@ -154,8 +164,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     private ExhibitPiece getPieceInfo(Beacon beaconDetails){
-        ArrayList<ExhibitPiece> piecesList = ExhibitConnection.getExhibitInfo();
-
         ExhibitPiece associatedPiece = new ExhibitPiece(0, 0, "Unknown Piece!", 0,
                                                         "Major ID is " + beaconDetails.getMajor(),
                                                         "","","","",true,0);
@@ -168,21 +176,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return associatedPiece;
-
-
-
-//        if(beaconDetails.getMinor() == blueberryMinorID){
-//            return new PieceInfo("Blueberries are blue.", blueberries);
-//
-//        }else if(beaconDetails.getMinor() == mintMinorID){
-//            return new PieceInfo("Mint is minty.", mint);
-//
-//        }else if(beaconDetails.getMinor() == iceMinorID) {
-//            return new PieceInfo("Ice is frozen water.", ice);
-//
-//        }else{
-//            return new PieceInfo("Unknown piece! The ID is " + beaconDetails.getMinor(), beacon);
-//        }
 
     }
 

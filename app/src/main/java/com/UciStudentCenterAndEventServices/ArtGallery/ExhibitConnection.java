@@ -1,24 +1,35 @@
 package com.UciStudentCenterAndEventServices.ArtGallery;
 
+import android.os.AsyncTask;
+
 import com.google.gson.*;
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 
-import static com.estimote.sdk.repackaged.okhttp_v2_2_0.com.squareup.okhttp.Protocol.get;
 
-public class ExhibitConnection {
-    public static void main (String[] args) throws Exception{
-        ArrayList<ExhibitPiece> piecesList = getExhibitInfo();
+public class ExhibitConnection extends AsyncTask<Void, Void, ArrayList<ExhibitPiece>>{
+    public interface AsyncResponse{
+        void processFinish(ArrayList<ExhibitPiece> output);
 
-        for (ExhibitPiece piece: piecesList){
-            System.out.println(piece.artistName);
-            System.out.println(piece.title);
-            System.out.println(piece.blurb);
-            System.out.println(piece.beaconMajorId);
-            System.out.println();
-        }
+    }
+
+    public AsyncResponse delegate = null;
+
+    public ExhibitConnection(AsyncResponse delegate){
+        this.delegate = delegate;
+    }
+
+    @Override
+    protected ArrayList<ExhibitPiece> doInBackground(Void... params) {
+        return getExhibitInfo();
+    }
+
+    @Override
+    protected void onPostExecute(ArrayList<ExhibitPiece>result) {
+        System.out.println("Got exhibit info!");
+        delegate.processFinish(result);
     }
 
     public static ArrayList<ExhibitPiece> getExhibitInfo() {

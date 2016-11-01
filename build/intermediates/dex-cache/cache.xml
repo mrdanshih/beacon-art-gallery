@@ -12,6 +12,15 @@
     </item>
     <item
         is-multidex="true"
+        jar="/Users/danielshih/AndroidStudioProjects/ArtGallery/app/libs/universal-image-loader-1.9.5.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="23.0.3"
+        sha1="442dbfb517b9ab5cb5c6da7ebf8cc28ec5bd0375">
+        <dex dex="/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/transforms/dex/debug/folders/1000/2/universal-image-loader-1.9.5_28725053eaeb667cc12cde90aede1ab8ac40afce/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.0/jars/classes.jar"
         jumboMode="true"
         optimize="true"
@@ -34,7 +43,7 @@
         jumboMode="true"
         optimize="true"
         revision="23.0.3"
-        sha1="1ac8747d84a8819c92c0f49ed9973044731bba5c">
+        sha1="e7c9bf62034315915bbc18c39d62f30d1edc7cc4">
         <dex dex="/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_9ca60fd9d286f8efdf4f38e694fe72bc78b4695a/classes.dex" />
     </item>
     <item
@@ -52,7 +61,7 @@
         jumboMode="true"
         optimize="true"
         revision="23.0.3"
-        sha1="a0a64b353820216845a2cbd174afe81a92021b06">
+        sha1="7a451a269feeb02f00787b4a4ceda9adf5c12453">
         <dex dex="/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_bd529dac8f856964f17c1bf4eeecd1005fb9ee49/classes.dex" />
     </item>
     <item
