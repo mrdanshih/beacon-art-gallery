@@ -2220,10 +2220,10 @@ containing a value of this type.
         public static final int activity_chooser_view_content=0x7f0c003d;
         public static final int alertTitle=0x7f0c0049;
         public static final int always=0x7f0c0032;
-        public static final int artExhibitTitle=0x7f0c006c;
         public static final int artPieceImage=0x7f0c006a;
         public static final int artPieceInfo=0x7f0c006b;
         public static final int artPieceName=0x7f0c006d;
+        public static final int artistName=0x7f0c006c;
         public static final int beginning=0x7f0c0030;
         public static final int bottom=0x7f0c001c;
         public static final int buttonPanel=0x7f0c0044;

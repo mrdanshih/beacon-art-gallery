@@ -9,12 +9,13 @@
         android:targetSdkVersion="23" />
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <!-- Needed for Bluetooth low energy scanning. -->
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" /> <!-- Needed for Bluetooth scanning on Android M and above. -->
-    <uses-permission-sdk-23 android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- Needed for Estimote Cloud. -->
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission-sdk-23 android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <uses-feature

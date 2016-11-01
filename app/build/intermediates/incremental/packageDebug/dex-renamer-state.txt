@@ -1,4 +1,7 @@
-#Fri Oct 28 17:46:23 PDT 2016
-base.0=/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/transforms/dex/debug/folders/1000/1f/main
+#Mon Oct 31 17:58:11 PDT 2016
+base.0=/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_bd529dac8f856964f17c1bf4eeecd1005fb9ee49
+renamed.1=classes2.dex
 renamed.0=classes.dex
-file.0=/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/transforms/dex/debug/folders/1000/1f/main/classes.dex
+file.1=/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_9ca60fd9d286f8efdf4f38e694fe72bc78b4695a/classes.dex
+base.1=/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_9ca60fd9d286f8efdf4f38e694fe72bc78b4695a
+file.0=/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_bd529dac8f856964f17c1bf4eeecd1005fb9ee49/classes.dex

@@ -1,6 +1,7 @@
 package com.UciStudentCenterAndEventServices.ArtGallery;
 
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.ImageView;
@@ -11,6 +12,7 @@ import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.Region;
 import com.estimote.sdk.SystemRequirementsChecker;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -43,6 +45,13 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //REMOVE THIS
+        if(android.os.Build.VERSION.SDK_INT > 9){
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -50,21 +59,21 @@ public class MainActivity extends AppCompatActivity {
         beaconManager.setRangingListener(new BeaconManager.RangingListener() {
             @Override
             public void onBeaconsDiscovered(Region region, List<Beacon> beaconList) {
-                String name;
-                String exhibitInfo = "";
+                String artistName;
+                String pieceTitle = "";
                 String pieceInfo = "";
 
                 if(!beaconList.isEmpty()){
                     Beacon nearestBeacon = beaconList.get(0);
 
-                    name = getPieceName(nearestBeacon);
-                    exhibitInfo = getExhibitInfo(nearestBeacon);
-                    pieceInfo = getPieceInfo(nearestBeacon).description;
+                    artistName = getPieceInfo(nearestBeacon).artistName;
+                    pieceTitle = getPieceInfo(nearestBeacon).title;
+                    pieceInfo = getPieceInfo(nearestBeacon).blurb;
 
 
-                    setCurrentImage(getPieceInfo(nearestBeacon).image);
-                    ((TextView) findViewById(R.id.artExhibitTitle)).setText(exhibitInfo);
-                    ((TextView) findViewById(R.id.artPieceName)).setText(name);
+                    //setCurrentImage(getPieceInfo(nearestBeacon).image);
+                    ((TextView) findViewById(R.id.artistName)).setText(artistName);
+                    ((TextView) findViewById(R.id.artPieceName)).setText(pieceTitle);
                     ((TextView) findViewById(R.id.artPieceInfo)).setText(pieceInfo);
                 }
             }
@@ -144,19 +153,36 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private PieceInfo getPieceInfo(Beacon beaconDetails){
-        if(beaconDetails.getMinor() == blueberryMinorID){
-            return new PieceInfo("Blueberries are blue.", blueberries);
+    private ExhibitPiece getPieceInfo(Beacon beaconDetails){
+        ArrayList<ExhibitPiece> piecesList = ExhibitConnection.getExhibitInfo();
 
-        }else if(beaconDetails.getMinor() == mintMinorID){
-            return new PieceInfo("Mint is minty.", mint);
+        ExhibitPiece associatedPiece = new ExhibitPiece(0, 0, "Unknown Piece!", 0,
+                                                        "Major ID is " + beaconDetails.getMajor(),
+                                                        "","","","",true,0);
 
-        }else if(beaconDetails.getMinor() == iceMinorID) {
-            return new PieceInfo("Ice is frozen water.", ice);
-
-        }else{
-            return new PieceInfo("Unknown piece! The ID is " + beaconDetails.getMinor(), beacon);
+        for(ExhibitPiece piece: piecesList){
+            if (piece.beaconMajorId == beaconDetails.getMajor()){
+                associatedPiece = piece;
+                break;
+            }
         }
+
+        return associatedPiece;
+
+
+
+//        if(beaconDetails.getMinor() == blueberryMinorID){
+//            return new PieceInfo("Blueberries are blue.", blueberries);
+//
+//        }else if(beaconDetails.getMinor() == mintMinorID){
+//            return new PieceInfo("Mint is minty.", mint);
+//
+//        }else if(beaconDetails.getMinor() == iceMinorID) {
+//            return new PieceInfo("Ice is frozen water.", ice);
+//
+//        }else{
+//            return new PieceInfo("Unknown piece! The ID is " + beaconDetails.getMinor(), beacon);
+//        }
 
     }
 

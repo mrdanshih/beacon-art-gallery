@@ -2,9 +2,5 @@
     {
         "merged": "/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi/ic_launcher.png",
         "source": "/Users/danielshih/AndroidStudioProjects/ArtGallery/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png"
-    },
-    {
-        "merged": "/Users/danielshih/Desktop/ArtGalleryG6B/app/build/intermediates/res/merged/debug/mipmap-xxxhdpi/ic_launcher.png",
-        "source": "/Users/danielshih/Desktop/ArtGalleryG6B/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png"
     }
 ]

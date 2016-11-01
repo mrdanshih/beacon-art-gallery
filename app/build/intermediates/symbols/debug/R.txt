@@ -574,10 +574,10 @@ int id action_mode_close_button 0x7f0c003c
 int id activity_chooser_view_content 0x7f0c003d
 int id alertTitle 0x7f0c0049
 int id always 0x7f0c0032
-int id artExhibitTitle 0x7f0c006c
 int id artPieceImage 0x7f0c006a
 int id artPieceInfo 0x7f0c006b
 int id artPieceName 0x7f0c006d
+int id artistName 0x7f0c006c
 int id beginning 0x7f0c0030
 int id bottom 0x7f0c001c
 int id buttonPanel 0x7f0c0044
