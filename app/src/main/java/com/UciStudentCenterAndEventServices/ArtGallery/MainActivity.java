@@ -69,7 +69,9 @@ public class MainActivity extends AppCompatActivity implements ExhibitConnection
             String pieceInfo;
             String beaconID;
             String imageURL;
-            Beacon currentBeacon;
+            Beacon currentBeacon, previousClosest;
+
+            int beaconCredibility = 0;
 
             @Override
             public void onBeaconsDiscovered(Region region, List<Beacon> beaconList) {
@@ -77,30 +79,47 @@ public class MainActivity extends AppCompatActivity implements ExhibitConnection
                     Beacon nearestBeacon = beaconList.get(0);
 
                     //If discovered new closest Beacon...
+                    //Basic beacon "credibility" test - If same new Beacon is seen for 2 cycles,
+                    //that Beacon will be seen as a credible new Beacon.
                     if(!nearestBeacon.equals(currentBeacon)){
-                        currentBeacon = nearestBeacon;
-                        System.out.println("New beacon: Major ID is " + nearestBeacon.getMajor());
+                        if(nearestBeacon.equals(previousClosest)){
+                            if(beaconCredibility == 1) {
+                                beaconCredibility = 0;
 
-                        ExhibitPiece artPiece = getPieceInfo(nearestBeacon);
-                        artistName = artPiece.artistName;
-                        pieceTitle = artPiece.title;
-                        pieceInfo = artPiece.blurb;
-                        beaconID = artPiece.beaconMajorId + "";
-                        imageURL = artPiece.pictureUrl;
+                                currentBeacon = nearestBeacon;
+                                System.out.println("Credible new Beacon: " + nearestBeacon.getMajor());
 
-                        System.out.println(imageURL);
+                                ExhibitPiece artPiece = getPieceInfo(nearestBeacon);
+                                artistName = artPiece.artistName;
+                                pieceTitle = artPiece.title;
+                                pieceInfo = artPiece.blurb;
+                                beaconID = artPiece.beaconMajorId + "";
+                                imageURL = artPiece.pictureUrl;
 
-                        ((TextView) findViewById(R.id.artistName)).setText(artistName);
-                        ((TextView) findViewById(R.id.beaconID)).setText(beaconID);
-                        ((TextView) findViewById(R.id.artPieceName)).setText(pieceTitle);
-                        ((TextView) findViewById(R.id.artPieceInfo)).setText(pieceInfo);
+                                System.out.println(imageURL);
 
-                        DownloadImageTask task = new DownloadImageTask((ImageView) findViewById(R.id.artPieceImage));
-                        task.execute(imageURL);
+                                ((TextView) findViewById(R.id.artistName)).setText(artistName);
+                                ((TextView) findViewById(R.id.beaconID)).setText(beaconID);
+                                ((TextView) findViewById(R.id.artPieceName)).setText(pieceTitle);
+                                ((TextView) findViewById(R.id.artPieceInfo)).setText(pieceInfo);
+
+                                DownloadImageTask task = new DownloadImageTask((ImageView) findViewById(R.id.artPieceImage));
+                                task.execute(imageURL);
+                            }else{
+                                beaconCredibility++;
+                                System.out.println("Updating credibility of " + nearestBeacon.getMajor() + " to " + beaconCredibility);
+                            }
+                        }else{
+                            System.out.println("New Beacon: " + nearestBeacon.getMajor());
+                            beaconCredibility = 0;
+                            previousClosest = nearestBeacon;
+                        }
+
 
                     //If it's the same nearest beacon, no need to do anything!
                     }else{
                         System.out.println("Same beacon: Major ID is " + nearestBeacon.getMajor());
+                        previousClosest = nearestBeacon;
 
                     }
 
