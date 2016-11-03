@@ -29,7 +29,9 @@
         android:label="ZotGallery"
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
-        <activity android:name="com.UciStudentCenterAndEventServices.ArtGallery.MainActivity" >
+        <activity
+            android:name="com.UciStudentCenterAndEventServices.ArtGallery.MainActivity"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

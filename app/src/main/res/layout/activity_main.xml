@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/relativeLayout"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFA0A9AC"
@@ -11,57 +11,92 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity">
 
-    <ImageView
-        android:id="@+id/artPieceImage"
-        android:layout_width="wrap_content"
-        android:layout_height="200dp"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:id="@+id/ImageLayout"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"
-        android:src="@drawable/beacon" />
+        android:layout_centerHorizontal="true">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="56dp"
-        android:id="@+id/artPieceInfo"
-        android:textSize="14sp"
-        android:textColor="@android:color/background_light" />
+        <ProgressBar
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/loadImageSpinner"
+            android:layout_centerInParent="true"
+            android:visibility="invisible" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/artistName"
-        android:textSize="24sp"
-        android:textColor="@android:color/white"
-        android:text="Welcome!"
-        android:textStyle="normal|bold"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        <ImageView
+            android:id="@+id/artPieceImage"
+            android:src="@drawable/beacon"
+            android:layout_width="match_parent"
+            android:scaleType="fitCenter"
+            android:layout_alignParentStart="true"
+            android:layout_height="275dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true" />
 
-    <TextView
-        android:id="@+id/artPieceName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Walk up to an art piece."
-        android:textAlignment="center"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="#ffffff"
-        android:layout_marginBottom="19dp"
-        android:layout_above="@+id/artPieceInfo"
-        android:layout_centerHorizontal="true" />
+    </RelativeLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/beaconID"
-        android:textColor="@android:color/background_light"
-        android:textSize="18sp"
-        android:layout_marginBottom="13dp"
-        android:layout_above="@+id/artPieceName"
-        android:layout_centerHorizontal="true"
-        android:textStyle="normal|bold|italic" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:id="@+id/ArtInfo"
+        android:layout_below="@+id/ImageLayout">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/beaconID"
+            android:textColor="@android:color/background_light"
+            android:textSize="18sp"
+            android:textStyle="normal|bold|italic"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="23dp"
+            tools:text="beaconID here"
+            android:textAlignment="center" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/artPieceInfo"
+            android:textSize="18sp"
+            android:textColor="@android:color/background_light"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            tools:text="Art piece info!"
+            android:textAlignment="center" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/artistName"
+            android:textSize="22sp"
+            android:textColor="@android:color/white"
+            android:text="Walk up to an art piece!"
+            android:layout_above="@+id/artPieceInfo"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="24dp"
+            android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/artPieceName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Welcome!"
+            android:textAlignment="center"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#ffffff"
+            android:textStyle="normal|bold"
+            android:textSize="24sp"
+            android:layout_marginBottom="22dp"
+            android:layout_above="@+id/artistName"
+            android:layout_centerHorizontal="true" />
+
+    </RelativeLayout>
 
 </RelativeLayout>

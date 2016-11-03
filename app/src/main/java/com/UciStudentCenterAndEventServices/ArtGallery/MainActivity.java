@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,6 +27,7 @@ import static com.UciStudentCenterAndEventServices.ArtGallery.R.drawable.beacon;
 import static com.UciStudentCenterAndEventServices.ArtGallery.R.drawable.blueberries;
 import static com.UciStudentCenterAndEventServices.ArtGallery.R.drawable.ice;
 import static com.UciStudentCenterAndEventServices.ArtGallery.R.drawable.mint;
+import static com.UciStudentCenterAndEventServices.ArtGallery.R.drawable.no_image;
 
 
 public class MainActivity extends AppCompatActivity implements ExhibitConnection.AsyncResponse{
@@ -62,36 +64,63 @@ public class MainActivity extends AppCompatActivity implements ExhibitConnection
 
         beaconManager = new BeaconManager(this);
         beaconManager.setRangingListener(new BeaconManager.RangingListener() {
+            String artistName;
+            String pieceTitle;
+            String pieceInfo;
+            String beaconID;
+            String imageURL;
+            Beacon currentBeacon;
+
             @Override
             public void onBeaconsDiscovered(Region region, List<Beacon> beaconList) {
-                String artistName;
-                String pieceTitle;
-                String pieceInfo;
-                String beaconID;
-                String imageURL;
-
-                if(!beaconList.isEmpty()){
+                if(!beaconList.isEmpty()) {
                     Beacon nearestBeacon = beaconList.get(0);
 
-                    ExhibitPiece artPiece = getPieceInfo(nearestBeacon);
-                    artistName = artPiece.artistName;
-                    pieceTitle = artPiece.title;
-                    pieceInfo = artPiece.blurb;
-                    beaconID = artPiece.beaconMajorId + "";
-                    imageURL = artPiece.pictureUrl;
+                    //If discovered new closest Beacon...
+                    if(!nearestBeacon.equals(currentBeacon)){
+                        currentBeacon = nearestBeacon;
+                        System.out.println("New beacon: Major ID is " + nearestBeacon.getMajor());
 
-                    System.out.println(imageURL);
+                        ExhibitPiece artPiece = getPieceInfo(nearestBeacon);
+                        artistName = artPiece.artistName;
+                        pieceTitle = artPiece.title;
+                        pieceInfo = artPiece.blurb;
+                        beaconID = artPiece.beaconMajorId + "";
+                        imageURL = artPiece.pictureUrl;
+
+                        System.out.println(imageURL);
+
+                        ((TextView) findViewById(R.id.artistName)).setText(artistName);
+                        ((TextView) findViewById(R.id.beaconID)).setText(beaconID);
+                        ((TextView) findViewById(R.id.artPieceName)).setText(pieceTitle);
+                        ((TextView) findViewById(R.id.artPieceInfo)).setText(pieceInfo);
+
+                        DownloadImageTask task = new DownloadImageTask((ImageView) findViewById(R.id.artPieceImage));
+                        task.execute(imageURL);
+
+                    //If it's the same nearest beacon, no need to do anything!
+                    }else{
+                        System.out.println("Same beacon: Major ID is " + nearestBeacon.getMajor());
+
+                    }
+
+                }else{
+                    System.out.println("No beacons in range.");
+
+                    artistName = "No art piece in range!";
+                    pieceTitle = "Walk up to an art piece.";
+                    pieceInfo = "Searching for art piece beacons...";
+                    beaconID = "";
+                    imageURL = "";
 
                     ((TextView) findViewById(R.id.artistName)).setText(artistName);
                     ((TextView) findViewById(R.id.beaconID)).setText(beaconID);
                     ((TextView) findViewById(R.id.artPieceName)).setText(pieceTitle);
                     ((TextView) findViewById(R.id.artPieceInfo)).setText(pieceInfo);
 
-                    //Download and set image.
-                    DownloadImageTask task = new DownloadImageTask((ImageView) findViewById(R.id.artPieceImage));
-                    task.execute(imageURL);
-
                 }
+
+
             }
         });
 
@@ -198,6 +227,11 @@ public class MainActivity extends AppCompatActivity implements ExhibitConnection
             this.bmImage = bmImage;
         }
 
+        protected void onPreExecute() {
+            bmImage.setVisibility(View.INVISIBLE);
+            findViewById(R.id.loadImageSpinner).setVisibility(View.VISIBLE);
+        }
+
         protected Bitmap doInBackground(String[] url) {
             //There's only one URL - the one passed in.
             String urldisplay = url[0];
@@ -211,12 +245,20 @@ public class MainActivity extends AppCompatActivity implements ExhibitConnection
             } catch (Exception e) {
                 Log.e("Error", e.getMessage());
                 e.printStackTrace();
+
             }
             return imageBitmap;
         }
 
         protected void onPostExecute(Bitmap result) {
-            bmImage.setImageBitmap(result);
+            if(result != null) {
+                bmImage.setImageBitmap(result);
+            }else{
+                bmImage.setImageResource(no_image);
+            }
+
+            findViewById(R.id.loadImageSpinner).setVisibility(View.INVISIBLE);
+            bmImage.setVisibility(View.VISIBLE);
         }
     }
 
