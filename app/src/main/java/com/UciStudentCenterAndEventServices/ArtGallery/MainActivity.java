@@ -4,7 +4,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -16,17 +15,12 @@ import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.Region;
 import com.estimote.sdk.SystemRequirementsChecker;
 
-import org.w3c.dom.Text;
 
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static com.UciStudentCenterAndEventServices.ArtGallery.R.drawable.beacon;
-import static com.UciStudentCenterAndEventServices.ArtGallery.R.drawable.blueberries;
-import static com.UciStudentCenterAndEventServices.ArtGallery.R.drawable.ice;
-import static com.UciStudentCenterAndEventServices.ArtGallery.R.drawable.mint;
 import static com.UciStudentCenterAndEventServices.ArtGallery.R.drawable.no_image;
 
 
@@ -37,19 +31,10 @@ public class MainActivity extends AppCompatActivity implements ExhibitConnection
     private BeaconManager beaconManager;
     private Region region;
 
-    //IceMintMajor represents a fictional "Ice-Mint Exhibit"
-    //Individual exhibits have art pieces - this is represented by majorID = exhibit, minorID = piece
-    final int iceMintMajor = 12345;
 
-    //Hardcoded UUID/IDs for the test app
-    String blueberryUUID = "B9407F30-F5F8-466E-AFF9-25556B57FE6D";
-    int blueberryMajorID = 20522, blueberryMinorID = 62874;
+    String artGalleryUUID = "B9407F30-F5F8-466E-AFF9-25556B57FE6D";
 
-    String iceUUID = "B9407F30-F5F8-466E-AFF9-25556B57FE6D";
-    int iceMajorID = 12345, iceMinorID = 62387;
 
-    String mintUUID = "B9407F30-F5F8-466E-AFF9-25556B57FE6D";
-    int mintMajorID = 12345, mintMinorID = 45368;
 
     ArrayList<ExhibitPiece> piecesList;
 
@@ -83,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements ExhibitConnection
                     //that Beacon will be seen as a credible new Beacon.
                     if(!nearestBeacon.equals(currentBeacon)){
                         if(nearestBeacon.equals(previousClosest)){
-                            if(beaconCredibility == 1) {
+                            if(beaconCredibility == 2) {
                                 beaconCredibility = 0;
 
                                 currentBeacon = nearestBeacon;
@@ -109,8 +94,13 @@ public class MainActivity extends AppCompatActivity implements ExhibitConnection
                                 beaconCredibility++;
                                 System.out.println("Updating credibility of " + nearestBeacon.getMajor() + " to " + beaconCredibility);
                             }
+
                         }else{
                             System.out.println("New Beacon: " + nearestBeacon.getMajor());
+
+                            String newID = "Found " + getPieceInfo(nearestBeacon).beaconMajorId + " as new closest art piece...";
+                            ((TextView) findViewById(R.id.beaconID)).setText(newID);
+
                             beaconCredibility = 0;
                             previousClosest = nearestBeacon;
                         }
@@ -119,6 +109,7 @@ public class MainActivity extends AppCompatActivity implements ExhibitConnection
                     //If it's the same nearest beacon, no need to do anything!
                     }else{
                         System.out.println("Same beacon: Major ID is " + nearestBeacon.getMajor());
+                        ((TextView) findViewById(R.id.beaconID)).setText(beaconID);
                         previousClosest = nearestBeacon;
 
                     }
@@ -143,18 +134,13 @@ public class MainActivity extends AppCompatActivity implements ExhibitConnection
             }
         });
 
-        region = new Region("Art Gallery Region", UUID.fromString(blueberryUUID), null, null);
+        region = new Region("Art Gallery Region", UUID.fromString(artGalleryUUID), null, null);
 
     }
 
     @Override
     public void processFinish(ArrayList<ExhibitPiece> result){
         piecesList = result;
-    }
-
-    public void setCurrentImage(int imageNum){
-        final ImageView imageView = (ImageView) findViewById(R.id.artPieceImage);
-        imageView.setImageResource(imageNum);
     }
 
 
@@ -194,32 +180,7 @@ public class MainActivity extends AppCompatActivity implements ExhibitConnection
         super.onDestroy();
     }
 
-    private String getExhibitInfo(Beacon beaconDetails){
-        if(beaconDetails.getMajor() == iceMintMajor){
-            return "You are in the Ice-Mint Exhibit.";
 
-        }else if(beaconDetails.getMajor() == blueberryMajorID){
-            return "You are in the Blueberry exhibit.";
-
-        }else{
-            return "Unknown exhibit! The ID is " + beaconDetails.getMajor();
-        }
-    }
-
-    private String getPieceName(Beacon beaconDetails){
-        if(beaconDetails.getMinor() == blueberryMinorID){
-            return "Blueberry";
-
-        }else if(beaconDetails.getMinor() == mintMinorID){
-            return "Mint";
-
-        }else if(beaconDetails.getMinor() == iceMinorID) {
-            return "Ice";
-
-        }else{
-            return "UNKNOWN";
-        }
-    }
 
 
     private ExhibitPiece getPieceInfo(Beacon beaconDetails){
