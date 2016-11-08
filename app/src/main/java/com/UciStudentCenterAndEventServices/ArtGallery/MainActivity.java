@@ -1,9 +1,14 @@
 package com.UciStudentCenterAndEventServices.ArtGallery;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -16,11 +21,14 @@ import com.estimote.sdk.Region;
 import com.estimote.sdk.SystemRequirementsChecker;
 
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import static com.UciStudentCenterAndEventServices.ArtGallery.R.drawable.beacon;
 import static com.UciStudentCenterAndEventServices.ArtGallery.R.drawable.no_image;
 
 
@@ -34,19 +42,39 @@ public class MainActivity extends AppCompatActivity implements ExhibitConnection
 
     String artGalleryUUID = "B9407F30-F5F8-466E-AFF9-25556B57FE6D";
 
-
-
     ArrayList<ExhibitPiece> piecesList;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //Does the fetching of the database (network process) using Async task
-        new ExhibitConnection(this).execute();
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Check if app has network connectivity...
+        if(isNetworkAvailable()){
+            System.out.println("CONNECTED TO INTERNET");
+            //Does the fetching of the database (network process) using Async task
+            new ExhibitConnection(this).execute();
+            doBeaconSearching();
+
+        }else{
+            System.out.println("NO INTERNET CONNECTION");
+            final AlertDialog noInternetDialog = new AlertDialog.Builder(this).create();
+            noInternetDialog.setTitle("No internet connection.");
+            noInternetDialog.setMessage("This app requires an internet connection to function. Connect to the internet and try again.");
+            noInternetDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    finish();
+                }
+            });
+            noInternetDialog.show();
+
+        }
+
+    }
+
+    private void doBeaconSearching(){
         beaconManager = new BeaconManager(this);
         beaconManager.setRangingListener(new BeaconManager.RangingListener() {
             String artistName;
@@ -106,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements ExhibitConnection
                         }
 
 
-                    //If it's the same nearest beacon, no need to do anything!
+                        //If it's the same nearest beacon, no need to do anything!
                     }else{
                         System.out.println("Same beacon: Major ID is " + nearestBeacon.getMajor());
                         ((TextView) findViewById(R.id.beaconID)).setText(beaconID);
@@ -135,8 +163,9 @@ public class MainActivity extends AppCompatActivity implements ExhibitConnection
         });
 
         region = new Region("Art Gallery Region", UUID.fromString(artGalleryUUID), null, null);
-
     }
+
+
 
     @Override
     public void processFinish(ArrayList<ExhibitPiece> result){
@@ -152,7 +181,7 @@ public class MainActivity extends AppCompatActivity implements ExhibitConnection
             Log.e(TAG, "Can't scan for beacons, some pre-conditions were not met");
             Log.e(TAG, "Read more about what's required at: http://estimote.github.io/Android-SDK/JavaDocs/com/estimote/sdk/SystemRequirementsChecker.html");
             Log.e(TAG, "If this is fixable, you should see a popup on the app's screen right now, asking to enable what's necessary");
-        } else {
+        } else if(beaconManager != null) {
             Log.d(TAG, "Starting BeaconManager ranging.");
 
             beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
@@ -167,8 +196,10 @@ public class MainActivity extends AppCompatActivity implements ExhibitConnection
 
     @Override
     protected void onPause() {
-        beaconManager.stopRanging(region);
-        Log.d(TAG, "Stopping Beacon ranging.");
+        if(beaconManager != null) {
+            beaconManager.stopRanging(region);
+            Log.d(TAG, "Stopping Beacon ranging.");
+        }
 
         super.onPause();
 
@@ -241,6 +272,15 @@ public class MainActivity extends AppCompatActivity implements ExhibitConnection
             bmImage.setVisibility(View.VISIBLE);
         }
     }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+
+        return activeNetworkInfo != null;
+    }
+
 
 }
 

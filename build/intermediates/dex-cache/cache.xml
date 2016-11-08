@@ -12,12 +12,12 @@
     </item>
     <item
         is-multidex="false"
-        jar="/Users/danielshih/AndroidStudioProjects/ArtGallery/app/libs/universal-image-loader-1.9.5.jar"
+        jar="/Users/danielshih/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.8.0/c4ba5371a29ac9b2ad6129b1d39ea38750043eff/gson-2.8.0.jar"
         jumboMode="false"
         optimize="true"
         revision="23.0.3"
-        sha1="442dbfb517b9ab5cb5c6da7ebf8cc28ec5bd0375">
-        <dex dex="/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/pre-dexed/debug/universal-image-loader-1.9.5_28725053eaeb667cc12cde90aede1ab8ac40afce.jar" />
+        sha1="c4ba5371a29ac9b2ad6129b1d39ea38750043eff">
+        <dex dex="/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/pre-dexed/debug/gson-2.8.0_2b1fdce6d7d90f29ea0819892d8ad59ca5d19e2b.jar" />
     </item>
     <item
         is-multidex="false"
@@ -45,15 +45,6 @@
         revision="23.0.3"
         sha1="19026d31f5d3ae868db81319671a642be5fbba08">
         <dex dex="/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/pre-dexed/debug/com.android.support-design-23.1.0_8f66df7e7f2bdf8b024dc0a7a45cdafb3b686de5.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/danielshih/AndroidStudioProjects/ArtGallery/app/libs/gson-2.8.0.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="c4ba5371a29ac9b2ad6129b1d39ea38750043eff">
-        <dex dex="/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/pre-dexed/debug/gson-2.8.0_a34fa64dc153fb85669b9118455374c3f024f595.jar" />
     </item>
     <item
         is-multidex="false"
