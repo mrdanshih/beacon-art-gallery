@@ -108,6 +108,10 @@
         "source": "/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/res/layout/abc_action_mode_close_item_material.xml"
     },
     {
+        "merged": "/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/res/merged/debug/layout/activity_art_gallery.xml",
+        "source": "/Users/danielshih/AndroidStudioProjects/ArtGallery/app/src/main/res/layout/activity_art_gallery.xml"
+    },
+    {
         "merged": "/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/res/merged/debug/layout/notification_template_big_media_narrow.xml",
         "source": "/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/res/layout/notification_template_big_media_narrow.xml"
     },
