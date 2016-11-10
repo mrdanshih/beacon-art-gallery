@@ -23,7 +23,7 @@
         android:required="false" />
 
     <application
-        android:name="com.UciStudentCenterAndEventServices.ArtGallery.MyApplication"
+        android:name="com.UciStudentCenterAndEventServices.ArtGallery.ZotGalleryApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="ZotGallery"

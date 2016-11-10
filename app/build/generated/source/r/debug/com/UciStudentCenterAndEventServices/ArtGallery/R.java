@@ -2200,12 +2200,13 @@ containing a value of this type.
         public static final int ice=0x7f020049;
         public static final int mint=0x7f02004a;
         public static final int no_image=0x7f02004b;
-        public static final int notification_template_icon_bg=0x7f02004d;
-        public static final int student_center=0x7f02004c;
+        public static final int nothing_in_range=0x7f02004c;
+        public static final int notification_template_icon_bg=0x7f02004e;
+        public static final int student_center=0x7f02004d;
     }
     public static final class id {
-        public static final int ArtInfo=0x7f0c006b;
-        public static final int ImageLayout=0x7f0c006c;
+        public static final int ArtInfo=0x7f0c006e;
+        public static final int ImageLayout=0x7f0c006b;
         public static final int action0=0x7f0c0080;
         public static final int action_bar=0x7f0c005a;
         public static final int action_bar_activity_content=0x7f0c0000;
@@ -2226,11 +2227,11 @@ containing a value of this type.
         public static final int alertTitle=0x7f0c0049;
         public static final int always=0x7f0c0032;
         public static final int artGalleryToolbar=0x7f0c006a;
-        public static final int artPieceImage=0x7f0c0072;
-        public static final int artPieceInfo=0x7f0c006d;
-        public static final int artPieceName=0x7f0c006f;
-        public static final int artistName=0x7f0c006e;
-        public static final int beaconID=0x7f0c0070;
+        public static final int artPieceImage=0x7f0c006d;
+        public static final int artPieceInfo=0x7f0c006f;
+        public static final int artPieceName=0x7f0c0071;
+        public static final int artistName=0x7f0c0070;
+        public static final int beaconID=0x7f0c0072;
         public static final int beginning=0x7f0c0030;
         public static final int bottom=0x7f0c001c;
         public static final int button=0x7f0c0074;
@@ -2279,7 +2280,7 @@ containing a value of this type.
         public static final int line3=0x7f0c0089;
         public static final int listMode=0x7f0c000b;
         public static final int list_item=0x7f0c0041;
-        public static final int loadImageSpinner=0x7f0c0071;
+        public static final int loadImageSpinner=0x7f0c006c;
         public static final int main=0x7f0c0069;
         public static final int media_actions=0x7f0c0083;
         public static final int middle=0x7f0c0031;

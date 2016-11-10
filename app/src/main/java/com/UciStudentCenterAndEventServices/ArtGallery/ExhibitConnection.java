@@ -8,8 +8,9 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 
-
 public class ExhibitConnection extends AsyncTask<Void, Void, ArrayList<ExhibitPiece>>{
+    final static String DATABASE_URL = "http://aladdin.studentcenter.uci.edu/ArtWebApi/api/Artwork/GetAssociatedArtwork";
+
     public interface AsyncResponse{
         void processFinish(ArrayList<ExhibitPiece> output);
 
@@ -67,7 +68,7 @@ public class ExhibitConnection extends AsyncTask<Void, Void, ArrayList<ExhibitPi
         JsonArray jarray = null;
 
         try {
-            URL databaseURL = new URL("http://aladdin.studentcenter.uci.edu/ArtWebApi/api/Artwork/GetAssociatedArtwork");
+            URL databaseURL = new URL(DATABASE_URL);
             URLConnection connection = databaseURL.openConnection();
 
             InputStream in = connection.getInputStream();
@@ -80,7 +81,6 @@ public class ExhibitConnection extends AsyncTask<Void, Void, ArrayList<ExhibitPi
                 response += inputLine;
 
             }
-
 
             JsonElement jelement = new JsonParser().parse(response);
             jarray = jelement.getAsJsonArray();

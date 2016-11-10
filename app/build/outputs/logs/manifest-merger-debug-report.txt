@@ -39,7 +39,7 @@ MERGED from [com.estimote:sdk:0.10.8] /Users/danielshih/AndroidStudioProjects/Ar
 	android:theme
 		ADDED from /Users/danielshih/AndroidStudioProjects/ArtGallery/app/src/main/AndroidManifest.xml:14:9-40
 	android:name
-		ADDED from /Users/danielshih/AndroidStudioProjects/ArtGallery/app/src/main/AndroidManifest.xml:9:9-38
+		ADDED from /Users/danielshih/AndroidStudioProjects/ArtGallery/app/src/main/AndroidManifest.xml:9:9-46
 activity#com.UciStudentCenterAndEventServices.ArtGallery.MainActivity
 ADDED from /Users/danielshih/AndroidStudioProjects/ArtGallery/app/src/main/AndroidManifest.xml:16:9-25:20
 	android:screenOrientation

@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static com.UciStudentCenterAndEventServices.ArtGallery.R.drawable.beacon;
+import static com.UciStudentCenterAndEventServices.ArtGallery.R.drawable.nothing_in_range;
 import static com.UciStudentCenterAndEventServices.ArtGallery.R.drawable.no_image;
 
 
@@ -71,7 +71,7 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
                     Beacon nearestBeacon = beaconList.get(0);
 
                     //If discovered new closest Beacon...
-                    //Basic beacon "credibility" test - If same new Beacon is seen for 2 cycles,
+                    //Basic nothing_in_range "credibility" test - If same new Beacon is seen for 2 cycles,
                     //that Beacon will be seen as a credible new Beacon.
                     if(!nearestBeacon.equals(currentBeacon)){
                         if(nearestBeacon.equals(previousClosest)){
@@ -113,9 +113,9 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
                         }
 
 
-                        //If it's the same nearest beacon, no need to do anything!
+                        //If it's the same nearest nothing_in_range, no need to do anything!
                     }else{
-                        System.out.println("Same beacon: Major ID is " + nearestBeacon.getMajor());
+                        System.out.println("Same nothing_in_range: Major ID is " + nearestBeacon.getMajor());
                         ((TextView) findViewById(R.id.beaconID)).setText(beaconID);
                         previousClosest = nearestBeacon;
 
@@ -130,7 +130,7 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
                     beaconID = "";
                     imageURL = "";
 
-                    ((ImageView) findViewById(R.id.artPieceImage)).setImageResource(beacon);
+                    ((ImageView) findViewById(R.id.artPieceImage)).setImageResource(nothing_in_range);
                     ((TextView) findViewById(R.id.artistName)).setText(artistName);
                     ((TextView) findViewById(R.id.beaconID)).setText(beaconID);
                     ((TextView) findViewById(R.id.artPieceName)).setText(pieceTitle);
