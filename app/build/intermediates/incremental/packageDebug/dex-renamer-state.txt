@@ -1,4 +1,4 @@
-#Wed Nov 09 17:58:11 PST 2016
+#Thu Nov 10 14:04:20 PST 2016
 base.0=/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_bd529dac8f856964f17c1bf4eeecd1005fb9ee49
 renamed.1=classes2.dex
 renamed.0=classes.dex

@@ -1,26 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="@color/colorPrimary"
     android:paddingBottom="0dp"
     android:paddingLeft="0dp"
     android:paddingRight="0dp"
     android:paddingTop="0dp"
-    tools:context=".ArtBeaconsActivity">
+    tools:context=".ArtBeaconsActivity"
+    android:weightSum="6">
 
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         android:theme="@style/AppTheme"
-        android:minHeight="?attr/actionBarSize"
         android:id="@+id/artGalleryToolbar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
-        app:titleTextColor="@android:color/background_light" />
+        app:titleTextColor="@android:color/background_light"
+        android:layout_height="?android:attr/actionBarSize" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -28,7 +29,9 @@
         android:id="@+id/ImageLayout"
         android:layout_marginTop="8dp"
         android:layout_below="@+id/artGalleryToolbar"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_weight="3"
+        android:background="@color/colorPrimary">
 
         <ProgressBar
             style="?android:attr/progressBarStyle"
@@ -47,21 +50,22 @@
             android:scaleType="fitCenter"
             android:layout_alignParentStart="true"
             android:layout_centerHorizontal="true"
-            android:layout_height="270dp" />
+            android:layout_height="match_parent" />
 
     </RelativeLayout>
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/ArtInfo"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="0dp"
         android:layout_below="@+id/ImageLayout"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="18dp"
-        android:background="@android:color/background_dark">
+        android:layout_marginTop="0dp"
+        android:background="@color/colorPrimary"
+        android:layout_weight="3"
+        android:layout_width="match_parent">
 
         <TextView
             android:layout_width="wrap_content"
@@ -87,20 +91,6 @@
             android:textAlignment="center" />
 
         <TextView
-            android:id="@+id/artPieceName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Welcome!"
-            android:textAlignment="center"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#ffffff"
-            android:textStyle="normal|bold"
-            android:textSize="24sp"
-            android:layout_marginBottom="22dp"
-            android:layout_above="@+id/artistName"
-            android:layout_centerHorizontal="true" />
-
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/beaconID"
@@ -113,6 +103,20 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true" />
 
+        <TextView
+            android:id="@+id/artPieceName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Welcome!"
+            android:textAlignment="center"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#ffffff"
+            android:textStyle="normal|bold"
+            android:textSize="24sp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="26dp" />
+
     </RelativeLayout>
 
-</RelativeLayout>
+</LinearLayout>

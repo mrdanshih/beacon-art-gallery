@@ -90,13 +90,9 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
 
                                 System.out.println(imageURL);
 
-                                ((TextView) findViewById(R.id.artistName)).setText(artistName);
-                                ((TextView) findViewById(R.id.beaconID)).setText(beaconID);
-                                ((TextView) findViewById(R.id.artPieceName)).setText(pieceTitle);
-                                ((TextView) findViewById(R.id.artPieceInfo)).setText(pieceInfo);
+                                setDisplayedPieceInfo(artistName, pieceTitle, pieceInfo, beaconID, imageURL);
 
-                                DownloadImageTask task = new DownloadImageTask((ImageView) findViewById(R.id.artPieceImage));
-                                task.execute(imageURL);
+
                             }else{
                                 beaconCredibility++;
                                 System.out.println("Updating credibility of " + nearestBeacon.getMajor() + " to " + beaconCredibility);
@@ -128,13 +124,9 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
                     pieceTitle = "Walk up to an art piece.";
                     pieceInfo = "Searching for art piece beacons...";
                     beaconID = "";
-                    imageURL = "";
+                    imageURL = null;
 
-                    ((ImageView) findViewById(R.id.artPieceImage)).setImageResource(nothing_in_range);
-                    ((TextView) findViewById(R.id.artistName)).setText(artistName);
-                    ((TextView) findViewById(R.id.beaconID)).setText(beaconID);
-                    ((TextView) findViewById(R.id.artPieceName)).setText(pieceTitle);
-                    ((TextView) findViewById(R.id.artPieceInfo)).setText(pieceInfo);
+                    setDisplayedPieceInfo(artistName, pieceTitle, pieceInfo, beaconID, imageURL);
 
                 }
 
@@ -146,6 +138,21 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
     }
 
 
+    private void setDisplayedPieceInfo(String artistName, String pieceTitle, String pieceInfo, String beaconID, String imageURL){
+        if(imageURL != null){
+            DownloadImageTask task = new DownloadImageTask((ImageView) findViewById(R.id.artPieceImage));
+            task.execute(imageURL);
+
+        }else{
+            ((ImageView) findViewById(R.id.artPieceImage)).setImageResource(nothing_in_range);
+        }
+
+        ((TextView) findViewById(R.id.artistName)).setText(artistName);
+        ((TextView) findViewById(R.id.beaconID)).setText(beaconID);
+        ((TextView) findViewById(R.id.artPieceName)).setText(pieceTitle);
+        ((TextView) findViewById(R.id.artPieceInfo)).setText(pieceInfo);
+
+    }
 
     @Override
     public void processFinish(ArrayList<ExhibitPiece> result){
