@@ -26,7 +26,8 @@
 
         <activity
             android:name=".ArtBeaconsActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:parentActivityName=".MainActivity">
         </activity>
 
     </application>

@@ -47,6 +47,14 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
         Toolbar toolbar = (Toolbar) findViewById(R.id.artGalleryToolbar);
         setSupportActionBar(toolbar);
 
+        try {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        }catch(NullPointerException e){
+            System.out.println("COULD NOT SET ACTION BAR UP BUTTON");
+            e.printStackTrace();
+        }
+
         new ExhibitConnection(this).execute();
         doBeaconSearching();
 
@@ -134,6 +142,7 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
             }
         });
 
+        //Beacons to search for are in this region - with the specified UUID.
         region = new Region("Art Gallery Region", UUID.fromString(artGalleryUUID), null, null);
     }
 
@@ -163,6 +172,7 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
     @Override
     protected void onResume() {
         super.onResume();
+
 
         if (!SystemRequirementsChecker.checkWithDefaultDialogs(this)) {
             Log.e(TAG, "Can't scan for beacons, some pre-conditions were not met");
