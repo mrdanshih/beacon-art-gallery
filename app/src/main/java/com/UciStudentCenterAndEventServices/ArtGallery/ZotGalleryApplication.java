@@ -1,20 +1,27 @@
 package com.UciStudentCenterAndEventServices.ArtGallery;
 
+import android.Manifest;
 import android.app.Application;
+import android.content.DialogInterface;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 
-import com.estimote.sdk.EstimoteSDK;
 
 //
 // Running into any issues? Drop us an email to: contact@estimote.com
 //
 
 public class ZotGalleryApplication extends Application {
+    private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
+
+
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-        EstimoteSDK.initialize(getApplicationContext(), "art-gallery-g6b", "b032804b5b17da0f9b0f0a45d9e8d01b");
 
         // uncomment to enable debug-level logging
         // it's usually only a good idea when troubleshooting issues with the Estimote SDK

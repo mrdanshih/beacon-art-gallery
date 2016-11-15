@@ -1,10 +1,13 @@
 package com.UciStudentCenterAndEventServices.ArtGallery;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +26,14 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+    public void startArtGallery(View view){
+        Intent artGalleryIntent = new Intent(this, ArtBeaconsActivity.class);
+        startActivity(artGalleryIntent);
+
+    }
+
+
 
     private void internetCheck(){
         //Check if app has network connectivity...
@@ -54,12 +65,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void startArtGallery(View view){
-        Intent artGalleryIntent = new Intent(this, ArtBeaconsActivity.class);
-        startActivity(artGalleryIntent);
-
-    }
-
 
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
@@ -68,5 +73,6 @@ public class MainActivity extends AppCompatActivity {
 
         return activeNetworkInfo != null;
     }
+
 
 }

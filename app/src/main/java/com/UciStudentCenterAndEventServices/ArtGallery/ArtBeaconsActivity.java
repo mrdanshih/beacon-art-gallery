@@ -4,6 +4,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.RemoteException;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -11,22 +13,30 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.estimote.sdk.Beacon;
-import com.estimote.sdk.BeaconManager;
-import com.estimote.sdk.Region;
 import com.estimote.sdk.SystemRequirementsChecker;
+
+import org.altbeacon.beacon.BeaconConsumer;
+import org.altbeacon.beacon.BeaconManager;
+import org.altbeacon.beacon.BeaconParser;
+import org.altbeacon.beacon.RangeNotifier;
+import org.altbeacon.beacon.Beacon;
+import org.altbeacon.beacon.Region;
 
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
 import static com.UciStudentCenterAndEventServices.ArtGallery.R.drawable.nothing_in_range;
 import static com.UciStudentCenterAndEventServices.ArtGallery.R.drawable.no_image;
+import static com.UciStudentCenterAndEventServices.ArtGallery.R.id.artistName;
+import static com.UciStudentCenterAndEventServices.ArtGallery.R.id.beaconID;
+import static org.altbeacon.beacon.Identifier.fromUuid;
 
 
-public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConnection.AsyncResponse{
+public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConnection.AsyncResponse, BeaconConsumer{
 
     private static final String TAG = "ArtBeaconsActivity";
 
@@ -55,15 +65,18 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
             e.printStackTrace();
         }
 
+        beaconManager = BeaconManager.getInstanceForApplication(this);
+        beaconManager.getBeaconParsers().add(new BeaconParser().
+                setBeaconLayout("m:0-3=4c000215,i:4-19,i:20-21,i:22-23,p:24-24"));
+        beaconManager.bind(this);
         new ExhibitConnection(this).execute();
-        doBeaconSearching();
+        //onBeaconServiceConnect();
 
 
     }
-
-    private void doBeaconSearching(){
-        beaconManager = new BeaconManager(this);
-        beaconManager.setRangingListener(new BeaconManager.RangingListener() {
+    @Override
+    public void onBeaconServiceConnect() {
+        beaconManager.addRangeNotifier(new RangeNotifier() {
             String artistName;
             String pieceTitle;
             String pieceInfo;
@@ -74,9 +87,9 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
             int beaconCredibility = 0;
 
             @Override
-            public void onBeaconsDiscovered(Region region, List<Beacon> beaconList) {
+            public void didRangeBeaconsInRegion(Collection<Beacon> beaconList, Region region) {
                 if(!beaconList.isEmpty()) {
-                    Beacon nearestBeacon = beaconList.get(0);
+                    Beacon nearestBeacon = beaconList.iterator().next();
 
                     //If discovered new closest Beacon...
                     //Basic nothing_in_range "credibility" test - If same new Beacon is seen for 2 cycles,
@@ -87,7 +100,9 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
                                 beaconCredibility = 0;
 
                                 currentBeacon = nearestBeacon;
-                                System.out.println("Credible new Beacon: " + nearestBeacon.getMajor());
+
+                                //ID 2 is the MajorID
+                                System.out.println("Credible new Beacon: " + nearestBeacon.getId2());
 
                                 ExhibitPiece artPiece = getPieceInfo(nearestBeacon);
                                 artistName = artPiece.artistName;
@@ -103,24 +118,27 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
 
                             }else{
                                 beaconCredibility++;
-                                System.out.println("Updating credibility of " + nearestBeacon.getMajor() + " to " + beaconCredibility);
+                                System.out.println("Updating credibility of " + nearestBeacon.getId2() + " to " + beaconCredibility);
                             }
 
                         }else{
-                            System.out.println("New Beacon: " + nearestBeacon.getMajor());
+                            System.out.println("New Beacon: " + nearestBeacon.getId2());
 
-                            String newID = "Found " + getPieceInfo(nearestBeacon).beaconMajorId + " as new closest art piece...";
-                            ((TextView) findViewById(R.id.beaconID)).setText(newID);
+                            final String newID = "Found " + getPieceInfo(nearestBeacon).beaconMajorId + " as new closest art piece...";
+
+                            setNewBeaconNotification(newID);
 
                             beaconCredibility = 0;
                             previousClosest = nearestBeacon;
                         }
 
 
-                        //If it's the same nearest nothing_in_range, no need to do anything!
+                        //If it's the same nearest beacon, no need to do anything!
                     }else{
-                        System.out.println("Same nothing_in_range: Major ID is " + nearestBeacon.getMajor());
-                        ((TextView) findViewById(R.id.beaconID)).setText(beaconID);
+                        System.out.println("Same beacon: Major ID is " + nearestBeacon.getId2());
+
+                        setNewBeaconNotification(beaconID);
+
                         previousClosest = nearestBeacon;
 
                     }
@@ -137,29 +155,46 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
                     setDisplayedPieceInfo(artistName, pieceTitle, pieceInfo, beaconID, imageURL);
 
                 }
-
-
             }
         });
 
-        //Beacons to search for are in this region - with the specified UUID.
-        region = new Region("Art Gallery Region", UUID.fromString(artGalleryUUID), null, null);
+        region = new Region("Art Gallery Region", fromUuid(UUID.fromString(artGalleryUUID)), null, null);
+
+        try{
+            beaconManager.startRangingBeaconsInRegion(region);
+        }catch(RemoteException e){
+            e.printStackTrace();
+        }
     }
 
+    private void setNewBeaconNotification(final String newID){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ((TextView) findViewById(R.id.beaconID)).setText(newID);
+            }
+        });
+    }
 
-    private void setDisplayedPieceInfo(String artistName, String pieceTitle, String pieceInfo, String beaconID, String imageURL){
-        if(imageURL != null){
-            DownloadImageTask task = new DownloadImageTask((ImageView) findViewById(R.id.artPieceImage));
-            task.execute(imageURL);
+    private void setDisplayedPieceInfo(final String artistName, final String pieceTitle, final String pieceInfo, final String beaconID, final String imageURL){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if(imageURL != null){
+                    DownloadImageTask task = new DownloadImageTask((ImageView) findViewById(R.id.artPieceImage));
+                    task.execute(imageURL);
 
-        }else{
-            ((ImageView) findViewById(R.id.artPieceImage)).setImageResource(nothing_in_range);
-        }
+                }else{
+                    ((ImageView) findViewById(R.id.artPieceImage)).setImageResource(nothing_in_range);
+                }
 
-        ((TextView) findViewById(R.id.artistName)).setText(artistName);
-        ((TextView) findViewById(R.id.beaconID)).setText(beaconID);
-        ((TextView) findViewById(R.id.artPieceName)).setText(pieceTitle);
-        ((TextView) findViewById(R.id.artPieceInfo)).setText(pieceInfo);
+                ((TextView) findViewById(R.id.artistName)).setText(artistName);
+                ((TextView) findViewById(R.id.beaconID)).setText(beaconID);
+                ((TextView) findViewById(R.id.artPieceName)).setText(pieceTitle);
+                ((TextView) findViewById(R.id.artPieceInfo)).setText(pieceInfo);
+
+            }
+        });
 
     }
 
@@ -174,31 +209,22 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
         super.onResume();
 
 
-        if (!SystemRequirementsChecker.checkWithDefaultDialogs(this)) {
-            Log.e(TAG, "Can't scan for beacons, some pre-conditions were not met");
-            Log.e(TAG, "Read more about what's required at: http://estimote.github.io/Android-SDK/JavaDocs/com/estimote/sdk/SystemRequirementsChecker.html");
-            Log.e(TAG, "If this is fixable, you should see a popup on the app's screen right now, asking to enable what's necessary");
-        } else if(beaconManager != null) {
-            Log.d(TAG, "Starting BeaconManager ranging.");
-
-            beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
-                @Override
-                //Starts the ranging of the beacons
-                public void onServiceReady() {
-                    beaconManager.startRanging(region);
-                }
-            });
+        if(beaconManager.isBound(this)){
+            beaconManager.setBackgroundMode(false);
+            Log.d(TAG, "Starting Beacon ranging.");
         }
     }
 
     @Override
     protected void onPause() {
-        if(beaconManager != null) {
-            beaconManager.stopRanging(region);
+        super.onPause();
+
+        if(beaconManager.isBound(this)){
+            beaconManager.setBackgroundMode(true);
             Log.d(TAG, "Stopping Beacon ranging.");
         }
 
-        super.onPause();
+
 
 
     }
@@ -206,6 +232,7 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        beaconManager.unbind(this);
     }
 
 
@@ -213,11 +240,11 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
 
     private ExhibitPiece getPieceInfo(Beacon beaconDetails){
         ExhibitPiece associatedPiece = new ExhibitPiece(0, 0, "Unknown Piece!", 0,
-                                                        "Major ID is " + beaconDetails.getMajor(),
+                                                        "Major ID is " + beaconDetails.getId2(),
                                                         "","","","",true,0);
 
         for(ExhibitPiece piece: piecesList){
-            if (piece.beaconMajorId == beaconDetails.getMajor()){
+            if (piece.beaconMajorId == beaconDetails.getId2().toInt()){
                 associatedPiece = piece;
                 break;
             }
