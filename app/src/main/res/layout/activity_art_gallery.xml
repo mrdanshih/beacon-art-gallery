@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/colorPrimary"
+    android:background="@android:color/background_light"
     android:paddingBottom="0dp"
     android:paddingLeft="0dp"
     android:paddingRight="0dp"
@@ -27,11 +27,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/ImageLayout"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="0dp"
         android:layout_below="@+id/artGalleryToolbar"
         android:layout_alignParentStart="true"
-        android:layout_weight="3.5"
-        android:background="@color/colorPrimary">
+        android:layout_weight="3.5">
 
         <ProgressBar
             style="?android:attr/progressBarStyle"
@@ -47,7 +46,7 @@
             android:id="@+id/artPieceImage"
             android:src="@drawable/nothing_in_range"
             android:layout_width="match_parent"
-            android:scaleType="fitCenter"
+            android:scaleType="centerCrop"
             android:layout_alignParentStart="true"
             android:layout_centerHorizontal="true"
             android:layout_height="match_parent" />
@@ -63,7 +62,7 @@
         android:layout_below="@+id/ImageLayout"
         android:layout_alignParentStart="true"
         android:layout_marginTop="0dp"
-        android:background="@color/colorPrimary"
+        android:background="@android:color/background_light"
         android:layout_weight="3"
         android:layout_width="match_parent">
 
@@ -74,10 +73,10 @@
             android:text="Welcome!"
             android:textAlignment="center"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#ffffff"
+            android:textColor="@android:color/black"
             android:textStyle="normal|bold"
             android:textSize="24sp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="12dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true" />
 
@@ -85,36 +84,26 @@
             android:id="@+id/artistName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text=""
+            android:text="Walk up to an art piece!"
             android:textAlignment="center"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#ffffff"
+            android:textColor="@android:color/black"
             android:textStyle="normal"
             android:textSize="18sp"
             tools:text="artistName"
             android:layout_below="@+id/artPieceName"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="14dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/beaconID"
-            android:textColor="@android:color/background_light"
-            android:textSize="18sp"
-            android:textStyle="normal|bold|italic"
-            tools:text="beaconID here"
-            android:textAlignment="center"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true" />
+            android:layout_marginTop="5dp" />
 
         <ScrollView
             android:id="@+id/expandable_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="11dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
             android:layout_below="@+id/artistName"
-            android:layout_alignParentStart="true">
+            android:layout_centerHorizontal="true"
+            android:layout_above="@+id/beaconID">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -130,6 +119,18 @@
                     layout="@layout/art_info_item" />
             </LinearLayout>
         </ScrollView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/beaconID"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            android:textStyle="normal|bold|italic"
+            tools:text="beaconID here"
+            android:textAlignment="center"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
 
 
     </RelativeLayout>

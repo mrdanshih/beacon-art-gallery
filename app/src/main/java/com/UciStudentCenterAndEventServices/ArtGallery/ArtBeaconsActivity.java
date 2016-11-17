@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import org.altbeacon.beacon.BeaconConsumer;
@@ -18,7 +19,6 @@ import org.altbeacon.beacon.BeaconParser;
 import org.altbeacon.beacon.RangeNotifier;
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.Region;
-import org.w3c.dom.Text;
 
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 
@@ -27,10 +27,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
 
-import static android.view.View.GONE;
 import static com.UciStudentCenterAndEventServices.ArtGallery.R.drawable.nothing_in_range;
 import static com.UciStudentCenterAndEventServices.ArtGallery.R.drawable.no_image;
-import static com.UciStudentCenterAndEventServices.ArtGallery.R.id.artistName;
 import static org.altbeacon.beacon.Identifier.fromUuid;
 
 
@@ -54,6 +52,7 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.artGalleryToolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setElevation(3);
 
         try {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -115,8 +114,8 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
                                 beaconID = artPiece.beaconMajorId + "";
                                 imageURL = artPiece.pictureUrl;
 
-                                System.out.println(imageURL);
 
+                                setExpandableInfoVisiblity(View.VISIBLE);
                                 setDisplayedPieceInfo(artistName, artistInfo, pieceTitle, pieceInfo, beaconID, imageURL);
 
 
@@ -157,6 +156,7 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
                     beaconID = "";
                     imageURL = null;
 
+                    setExpandableInfoVisiblity(View.GONE);
                     setDisplayedPieceInfo(artistName, artistInfo, pieceTitle, pieceInfo, beaconID, imageURL);
 
                 }
@@ -172,6 +172,16 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
         }
     }
 
+    private void setExpandableInfoVisiblity(final int visibility){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ScrollView expandableInfoView = (ScrollView) (findViewById(R.id.expandable_info));
+
+                expandableInfoView.setVisibility(visibility);
+            }
+        });
+    }
 
     private void setNewBeaconNotification(final String newID){
         runOnUiThread(new Runnable() {

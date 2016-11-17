@@ -1,12 +1,7 @@
 package com.UciStudentCenterAndEventServices.ArtGallery;
 
-import android.Manifest;
 import android.app.Application;
-import android.content.DialogInterface;
-import android.content.pm.PackageManager;
-import android.os.Build;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AlertDialog;
+
 
 
 //
@@ -22,9 +17,5 @@ public class ZotGalleryApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-
-        // uncomment to enable debug-level logging
-        // it's usually only a good idea when troubleshooting issues with the Estimote SDK
-//        EstimoteSDK.enableDebugLogging(true);
     }
 }

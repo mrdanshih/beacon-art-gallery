@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Wed Nov 16 18:09:45 PST 2016
+#Thu Nov 17 15:31:05 PST 2016
 175.set=ANDROID_RESOURCE
 122.file=/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/res/resources-debug.ap_/res/drawable/abc_seekbar_thumb_material.xml
 60.set=ANDROID_RESOURCE
@@ -359,7 +359,7 @@ count=180
 17.file=/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/res/resources-debug.ap_/res/drawable-xxhdpi-v4/abc_ic_commit_search_api_mtrl_alpha.png
 65.set=ANDROID_RESOURCE
 155.file=/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/res/resources-debug.ap_/res/color/abc_primary_text_material_light.xml
-64.file=/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/res/resources-debug.ap_/res/drawable-xxxhdpi-v4/abc_ic_menu_share_mtrl_alpha.png
+64.file=/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/res/resources-debug.ap_/res/layout-v21/abc_screen_toolbar.xml
 32.base=/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/res/resources-debug.ap_
 57.set=ANDROID_RESOURCE
 39.base=/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/res/resources-debug.ap_
@@ -438,7 +438,7 @@ count=180
 55.set=ANDROID_RESOURCE
 154.file=/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/res/resources-debug.ap_/res/anim/abc_slide_in_bottom.xml
 31.base=/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/res/resources-debug.ap_
-63.file=/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/res/resources-debug.ap_/res/layout-v21/abc_screen_toolbar.xml
+63.file=/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/res/resources-debug.ap_/res/drawable-xxxhdpi-v4/abc_ic_menu_share_mtrl_alpha.png
 47.set=ANDROID_RESOURCE
 38.base=/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/res/resources-debug.ap_
 39.set=ANDROID_RESOURCE
@@ -448,7 +448,7 @@ count=180
 23.file=/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/res/resources-debug.ap_/res/drawable/abc_seekbar_track_material.xml
 161.file=/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/res/resources-debug.ap_/res/drawable/mint.jpg
 171.base=/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/res/resources-debug.ap_
-70.file=/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/res/resources-debug.ap_/res/drawable-xhdpi-v4/ic_expand_large_holo_light.png
+70.file=/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/res/resources-debug.ap_/res/layout-v21/activity_art_gallery.xml
 111.set=ANDROID_RESOURCE
 168.file=/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/res/resources-debug.ap_/res/drawable-xxxhdpi-v4/abc_btn_radio_to_on_mtrl_000.png
 178.base=/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/res/resources-debug.ap_
@@ -516,7 +516,7 @@ count=180
 37.set=ANDROID_RESOURCE
 29.set=ANDROID_RESOURCE
 37.base=/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/res/resources-debug.ap_
-69.file=/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/res/resources-debug.ap_/res/layout-v21/activity_art_gallery.xml
+69.file=/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/res/resources-debug.ap_/res/drawable-xhdpi-v4/ic_expand_large_holo_light.png
 84.base=/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/res/resources-debug.ap_
 99.set=ANDROID_RESOURCE
 113.file=/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/res/resources-debug.ap_/res/drawable-xxxhdpi-v4/abc_scrubber_control_to_pressed_mtrl_005.png
