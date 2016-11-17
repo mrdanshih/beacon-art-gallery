@@ -16,6 +16,10 @@
         "source": "/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/res/drawable-hdpi/abc_btn_rating_star_off_mtrl_alpha.png"
     },
     {
+        "merged": "/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/res/merged/debug/drawable-hdpi/ic_collapse_small_holo_light.png",
+        "source": "/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/exploded-aar/com.ms-square/expandableTextView/0.1.4/res/drawable-hdpi/ic_collapse_small_holo_light.png"
+    },
+    {
         "merged": "/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/res/merged/debug/drawable-hdpi/abc_list_selector_disabled_holo_light.9.png",
         "source": "/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/res/drawable-hdpi/abc_list_selector_disabled_holo_light.9.png"
     },
@@ -96,6 +100,10 @@
         "source": "/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/res/drawable-hdpi/abc_textfield_default_mtrl_alpha.9.png"
     },
     {
+        "merged": "/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/res/merged/debug/drawable-hdpi/ic_collapse_large_holo_light.png",
+        "source": "/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/exploded-aar/com.ms-square/expandableTextView/0.1.4/res/drawable-hdpi/ic_collapse_large_holo_light.png"
+    },
+    {
         "merged": "/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/res/merged/debug/drawable-hdpi/abc_ic_menu_copy_mtrl_am_alpha.png",
         "source": "/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/res/drawable-hdpi/abc_ic_menu_copy_mtrl_am_alpha.png"
     },
@@ -126,6 +134,10 @@
     {
         "merged": "/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/res/merged/debug/drawable-hdpi/abc_btn_switch_to_on_mtrl_00012.9.png",
         "source": "/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/res/drawable-hdpi/abc_btn_switch_to_on_mtrl_00012.9.png"
+    },
+    {
+        "merged": "/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/res/merged/debug/drawable-hdpi/ic_expand_large_holo_light.png",
+        "source": "/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/exploded-aar/com.ms-square/expandableTextView/0.1.4/res/drawable-hdpi/ic_expand_large_holo_light.png"
     },
     {
         "merged": "/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/res/merged/debug/drawable-hdpi/abc_btn_switch_to_on_mtrl_00001.9.png",
@@ -162,6 +174,10 @@
     {
         "merged": "/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/res/merged/debug/drawable-hdpi/abc_spinner_mtrl_am_alpha.9.png",
         "source": "/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/res/drawable-hdpi/abc_spinner_mtrl_am_alpha.9.png"
+    },
+    {
+        "merged": "/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/res/merged/debug/drawable-hdpi/ic_expand_small_holo_light.png",
+        "source": "/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/exploded-aar/com.ms-square/expandableTextView/0.1.4/res/drawable-hdpi/ic_expand_small_holo_light.png"
     },
     {
         "merged": "/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/res/merged/debug/drawable-hdpi/abc_ic_clear_mtrl_alpha.png",

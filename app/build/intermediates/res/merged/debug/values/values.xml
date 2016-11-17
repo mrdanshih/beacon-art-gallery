@@ -99,6 +99,7 @@
     <declare-styleable name="CoordinatorLayout"><attr format="reference" name="keylines"/><attr format="reference" name="statusBarBackground"/></declare-styleable>
     <declare-styleable name="CoordinatorLayout_LayoutParams"><attr name="android:layout_gravity"/><attr format="string" name="layout_behavior"/><attr format="reference" name="layout_anchor"/><attr format="integer" name="layout_keyline"/><attr name="layout_anchorGravity"><flag name="top" value="0x30"/><flag name="bottom" value="0x50"/><flag name="left" value="0x03"/><flag name="right" value="0x05"/><flag name="center_vertical" value="0x10"/><flag name="fill_vertical" value="0x70"/><flag name="center_horizontal" value="0x01"/><flag name="fill_horizontal" value="0x07"/><flag name="center" value="0x11"/><flag name="fill" value="0x77"/><flag name="clip_vertical" value="0x80"/><flag name="clip_horizontal" value="0x08"/><flag name="start" value="0x00800003"/><flag name="end" value="0x00800005"/></attr></declare-styleable>
     <declare-styleable name="DrawerArrowToggle"><attr format="color" name="color"/><attr format="boolean" name="spinBars"/><attr format="dimension" name="drawableSize"/><attr format="dimension" name="gapBetweenBars"/><attr format="dimension" name="arrowHeadLength"/><attr format="dimension" name="arrowShaftLength"/><attr format="dimension" name="barLength"/><attr format="dimension" name="thickness"/></declare-styleable>
+    <declare-styleable name="ExpandableTextView"><attr format="integer" name="maxCollapsedLines"/><attr format="integer" name="animDuration"/><attr format="float" name="animAlphaStart"/><attr format="reference" name="expandDrawable"/><attr format="reference" name="collapseDrawable"/></declare-styleable>
     <declare-styleable name="FloatingActionButton"><attr name="android:background"/><attr name="backgroundTint"/><attr name="backgroundTintMode"/><attr format="color" name="rippleColor"/><attr name="fabSize"><enum name="normal" value="0"/><enum name="mini" value="1"/></attr><attr name="elevation"/><attr format="dimension" name="pressedTranslationZ"/><attr format="dimension" name="borderWidth"/></declare-styleable>
     <declare-styleable name="ForegroundLinearLayout"><attr name="android:foreground"/><attr name="android:foregroundGravity"/><attr format="boolean" name="foregroundInsidePadding"/></declare-styleable>
     <declare-styleable name="LinearLayoutCompat"><attr name="android:orientation"/><attr name="android:gravity"/><attr name="android:baselineAligned"/><attr name="android:baselineAlignedChildIndex"/><attr name="android:weightSum"/><attr format="boolean" name="measureWithLargestChild"/><attr name="divider"/><attr name="showDividers"><flag name="none" value="0"/><flag name="beginning" value="1"/><flag name="middle" value="2"/><flag name="end" value="4"/></attr><attr format="dimension" name="dividerPadding"/></declare-styleable>
@@ -236,6 +237,8 @@
     <item name="action_bar_spinner" type="id"/>
     <item name="action_menu_divider" type="id"/>
     <item name="action_menu_presenter" type="id"/>
+    <item name="expand_collapse" type="id"/>
+    <item name="expandable_text" type="id"/>
     <item name="home" type="id"/>
     <item name="item_touch_helper_previous_elevation" type="id"/>
     <item name="progress_circular" type="id"/>
@@ -271,19 +274,6 @@
     <string name="app_name">ArtGalleryG6B</string>
     <string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
     <string name="character_counter_pattern" translatable="false">%1$d/%2$d</string>
-    <string name="error_no_bluetooth_enabled">To use this app you need to turn on Bluetooth</string>
-    <string name="error_no_bluetooth_le">This device does not support Bluetooth Low Energy</string>
-    <string name="error_no_location_permission">To use this app you need to grant location permission</string>
-    <string name="requesting_location_access">Requesting location access</string>
-    <string name="requesting_location_access_cancel">I don\'t want to do this now</string>
-    <string name="requesting_location_access_ok">Go to settings to enable</string>
-    <string name="requesting_location_access_rationale">
-    Detecting beacons requires Location to be enabled. We\'ll never access your GPS location without your knowledge.
-  </string>
-    <string name="requesting_location_permission">Requesting location permission</string>
-    <string name="requesting_location_permission_rationale">
-    Detecting beacons requires Location permission. Please "Allow" so app can detect beacons.
-  </string>
     <string name="status_bar_notification_info_overflow">999+</string>
     <style name="AlertDialog.AppCompat" parent="Base.AlertDialog.AppCompat"/>
     <style name="AlertDialog.AppCompat.Light" parent="Base.AlertDialog.AppCompat.Light"/>
@@ -1497,14 +1487,6 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
-    <style name="Theme.Transparent" parent="android:Theme">
-    <item name="android:windowIsTranslucent">true</item>
-    <item name="android:windowBackground">@android:color/transparent</item>
-    <item name="android:windowContentOverlay">@null</item>
-    <item name="android:windowNoTitle">true</item>
-    <item name="android:windowIsFloating">true</item>
-    <item name="android:backgroundDimEnabled">false</item>
-  </style>
     <style name="ThemeOverlay.AppCompat" parent="Base.ThemeOverlay.AppCompat"/>
     <style name="ThemeOverlay.AppCompat.ActionBar" parent="Base.ThemeOverlay.AppCompat.ActionBar"/>
     <style name="ThemeOverlay.AppCompat.Dark" parent="Base.ThemeOverlay.AppCompat.Dark"/>

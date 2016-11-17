@@ -30,7 +30,7 @@
         android:layout_marginTop="8dp"
         android:layout_below="@+id/artGalleryToolbar"
         android:layout_alignParentStart="true"
-        android:layout_weight="3"
+        android:layout_weight="3.5"
         android:background="@color/colorPrimary">
 
         <ProgressBar
@@ -68,42 +68,6 @@
         android:layout_width="match_parent">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/artPieceInfo"
-            android:textSize="18sp"
-            android:textColor="@android:color/background_light"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            tools:text="Art piece info!"
-            android:textAlignment="center" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/artistName"
-            android:textSize="22sp"
-            android:textColor="@android:color/white"
-            android:text="Walk up to an art piece!"
-            android:layout_above="@+id/artPieceInfo"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="24dp"
-            android:textAlignment="center" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/beaconID"
-            android:textColor="@android:color/background_light"
-            android:textSize="18sp"
-            android:textStyle="normal|bold|italic"
-            android:layout_marginBottom="36dp"
-            tools:text="beaconID here"
-            android:textAlignment="center"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true" />
-
-        <TextView
             android:id="@+id/artPieceName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -113,9 +77,60 @@
             android:textColor="#ffffff"
             android:textStyle="normal|bold"
             android:textSize="24sp"
+            android:layout_marginTop="24dp"
             android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="26dp" />
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:id="@+id/artistName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textAlignment="center"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#ffffff"
+            android:textStyle="normal"
+            android:textSize="18sp"
+            tools:text="artistName"
+            android:layout_below="@+id/artPieceName"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="14dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/beaconID"
+            android:textColor="@android:color/background_light"
+            android:textSize="18sp"
+            android:textStyle="normal|bold|italic"
+            tools:text="beaconID here"
+            android:textAlignment="center"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
+
+        <ScrollView
+            android:id="@+id/scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="11dp"
+            android:layout_below="@+id/artistName"
+            android:layout_alignParentStart="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include
+                    android:id="@+id/artistInfoView"
+                    layout="@layout/art_info_item" />
+
+                <include
+                    android:id="@+id/artworkInfoView"
+                    layout="@layout/art_info_item" />
+            </LinearLayout>
+        </ScrollView>
+
 
     </RelativeLayout>
 
