@@ -21,7 +21,6 @@ import com.ms.square.android.expandabletextview.ExpandableTextView;
 
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -143,6 +142,7 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
                     }
 
                 }else if(emptyCredibility == 3){
+                    beaconCredibility = 0;
                     emptyCredibility = 0;
                     currentBeacon = null;
                     Log.d(TAG, "No beacons in range for 3 cycles!");
