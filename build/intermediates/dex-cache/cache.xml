@@ -21,6 +21,15 @@
     </item>
     <item
         is-multidex="false"
+        jar="/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/exploded-aar/com.estimote/sdk/0.13.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="7486889ec02f2bc90b62a2f7b685391f5fcb8be9">
+        <dex dex="/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/pre-dexed/debug/com.estimote-sdk-0.13.0_5f584df85c96ffb032eed84ae5261294d15b95bb.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.0/jars/libs/internal_impl-23.1.0.jar"
         jumboMode="false"
         optimize="true"
@@ -57,15 +66,6 @@
     </item>
     <item
         is-multidex="false"
-        jar="/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="23.0.3"
-        sha1="57ae0d750ff83f0c738d21720224ac7ea866a094">
-        <dex dex="/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/pre-dexed/debug/com.android.support-appcompat-v7-23.1.0_90abe9deffa1ae8e0be66bac88a364b6a1865e26.jar" />
-    </item>
-    <item
-        is-multidex="false"
         jar="/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/23.1.0/jars/classes.jar"
         jumboMode="false"
         optimize="true"
@@ -75,12 +75,12 @@
     </item>
     <item
         is-multidex="false"
-        jar="/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/exploded-aar/org.altbeacon/android-beacon-library/2.9.1/jars/classes.jar"
+        jar="/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/jars/classes.jar"
         jumboMode="false"
         optimize="true"
         revision="23.0.3"
-        sha1="0b271af1568b43a528bba26d19c5874bb91c34cd">
-        <dex dex="/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/pre-dexed/debug/org.altbeacon-android-beacon-library-2.9.1_b17ee63eca16d7d657712b9ef481becd64ece0ff.jar" />
+        sha1="57ae0d750ff83f0c738d21720224ac7ea866a094">
+        <dex dex="/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/pre-dexed/debug/com.android.support-appcompat-v7-23.1.0_90abe9deffa1ae8e0be66bac88a364b6a1865e26.jar" />
     </item>
 
 </items>
