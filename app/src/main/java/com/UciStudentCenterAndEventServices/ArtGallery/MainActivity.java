@@ -42,6 +42,10 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         startActivity(artGalleryIntent);
     }
 
+    public void startNavigationActivity(View view){
+        Intent navIntent = new Intent(this, NavigationActivity.class);
+        startActivity(navIntent);
+    }
 
     private void locationPermissionCheck(){
 

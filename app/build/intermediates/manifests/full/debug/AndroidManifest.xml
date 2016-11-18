@@ -21,6 +21,10 @@
         android:name="android.hardware.bluetooth_le"
         android:required="false" />
 
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <uses-permission-sdk-23 android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <application
         android:name="com.UciStudentCenterAndEventServices.ArtGallery.ZotGalleryApplication"
         android:allowBackup="true"
@@ -40,8 +44,8 @@
         <activity
             android:name="com.UciStudentCenterAndEventServices.ArtGallery.ArtBeaconsActivity"
             android:parentActivityName="com.UciStudentCenterAndEventServices.ArtGallery.MainActivity"
-            android:screenOrientation="portrait" >
-        </activity>
+            android:screenOrientation="portrait" />
+        <activity android:name="com.UciStudentCenterAndEventServices.ArtGallery.NavigationActivity" />
 
         <service
             android:name="com.estimote.sdk.service.BeaconService"
@@ -56,6 +60,25 @@
 
         <service
             android:name="com.estimote.sdk.connection.internal.DeviceConnectionProviderService"
+            android:exported="false" />
+
+        <receiver android:name="org.altbeacon.beacon.startup.StartupBroadcastReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
+                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name="org.altbeacon.beacon.service.BeaconService"
+            android:enabled="true"
+            android:exported="false"
+            android:isolatedProcess="false"
+            android:label="beacon" />
+        <service
+            android:name="org.altbeacon.beacon.BeaconIntentProcessor"
+            android:enabled="true"
             android:exported="false" />
     </application>
 

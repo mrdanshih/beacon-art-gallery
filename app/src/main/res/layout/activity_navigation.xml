@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_navigation"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.UciStudentCenterAndEventServices.ArtGallery.NavigationActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/navBeaconID"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="86dp"
+        android:layout_marginTop="196dp"
+        android:textSize="24sp"
+        tools:text="Beacon ID" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="57dp"
+        android:id="@+id/navDistance"
+        android:textSize="18sp"
+        android:layout_marginEnd="9dp"
+        tools:text="distance"
+        android:layout_below="@+id/navBeaconID"
+        android:layout_alignEnd="@+id/navBeaconID" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/navDistance"
+        android:layout_alignStart="@+id/navDistance"
+        android:layout_marginTop="86dp"
+        android:id="@+id/navBeacon2ID"
+        tools:text="Beacon 2ID"
+        android:textSize="24sp" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/navDistance2"
+        android:textSize="18sp"
+        android:layout_below="@+id/navBeacon2ID"
+        android:layout_alignEnd="@+id/navBeacon2ID"
+        android:layout_marginTop="13dp"
+        tools:text="distance2" />
+</RelativeLayout>
