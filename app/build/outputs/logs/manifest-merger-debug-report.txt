@@ -13,10 +13,10 @@ ADDED from /Users/danielshih/AndroidStudioProjects/ArtGallery/app/src/main/Andro
 	android:versionCode
 		INJECTED from /Users/danielshih/AndroidStudioProjects/ArtGallery/app/src/main/AndroidManifest.xml
 		INJECTED from /Users/danielshih/AndroidStudioProjects/ArtGallery/app/src/main/AndroidManifest.xml
-uses-permission#android.permission.ACCESS_COARSE_LOCATION
-ADDED from /Users/danielshih/AndroidStudioProjects/ArtGallery/app/src/main/AndroidManifest.xml:5:5-81
+uses-permission#android.permission.ACCESS_FINE_LOCATION
+ADDED from /Users/danielshih/AndroidStudioProjects/ArtGallery/app/src/main/AndroidManifest.xml:5:5-79
 	android:name
-		ADDED from /Users/danielshih/AndroidStudioProjects/ArtGallery/app/src/main/AndroidManifest.xml:5:22-78
+		ADDED from /Users/danielshih/AndroidStudioProjects/ArtGallery/app/src/main/AndroidManifest.xml:5:22-76
 uses-permission#android.permission.BLUETOOTH
 ADDED from /Users/danielshih/AndroidStudioProjects/ArtGallery/app/src/main/AndroidManifest.xml:6:5-67
 MERGED from [org.altbeacon:android-beacon-library:2.9.1] /Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/exploded-aar/org.altbeacon/android-beacon-library/2.9.1/AndroidManifest.xml:11:5-68

@@ -20,7 +20,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
-    private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;
+    private static final int PERMISSION_REQUEST_FINE_LOCATION = 1;
 
 
 
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-            if (this.checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            if (this.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
                 final AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("Grant location access permissions");
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
                     @Override
                     public void onDismiss(DialogInterface dialog) {
-                        ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_REQUEST_COARSE_LOCATION);
+                        ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_REQUEST_FINE_LOCATION);
                     }
 
                 });
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                                            int[] grantResults) {
         View mainView = findViewById(R.id.activity_main2);
 
-        if (requestCode == PERMISSION_REQUEST_COARSE_LOCATION) {
+        if (requestCode == PERMISSION_REQUEST_FINE_LOCATION) {
             // Request for location
             if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Permission has been granted.

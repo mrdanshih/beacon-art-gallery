@@ -87,10 +87,12 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
             Beacon currentBeacon, previousClosest;
 
             int beaconCredibility = 0;
+            int emptyCredibility = 0;
 
             @Override
             public void didRangeBeaconsInRegion(Collection<Beacon> beaconList, Region region) {
                 if(!beaconList.isEmpty()) {
+                    emptyCredibility = 0;
                     Beacon nearestBeacon = beaconList.iterator().next();
 
                     //If discovered new closest Beacon...
@@ -146,8 +148,10 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
 
                     }
 
-                }else{
-                    Log.d(TAG, "No beacons in range.");
+                }else if(emptyCredibility == 3){
+                    emptyCredibility = 0;
+                    currentBeacon = null;
+                    Log.d(TAG, "No beacons in range for 3 cycles");
 
                     artistName = "No art piece in range!";
                     artistInfo = "";
@@ -158,6 +162,10 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
 
                     setExpandableInfoVisiblity(View.GONE);
                     setDisplayedPieceInfo(artistName, artistInfo, pieceTitle, pieceInfo, beaconID, imageURL);
+
+                }else{
+                    emptyCredibility++;
+                    Log.d(TAG, "No beacons in range... for " + emptyCredibility + " cycles");
 
                 }
             }
