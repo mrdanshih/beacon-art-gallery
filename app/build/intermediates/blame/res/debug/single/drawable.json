@@ -48,10 +48,6 @@
         "source": "/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/res/drawable/abc_edit_text_material.xml"
     },
     {
-        "merged": "/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/res/merged/debug/drawable/ice.jpg",
-        "source": "/Users/danielshih/AndroidStudioProjects/ArtGallery/app/src/main/res/drawable/ice.jpg"
-    },
-    {
         "merged": "/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/res/merged/debug/drawable/no_image.jpg",
         "source": "/Users/danielshih/AndroidStudioProjects/ArtGallery/app/src/main/res/drawable/no_image.jpg"
     },
@@ -108,14 +104,6 @@
         "source": "/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/exploded-aar/com.android.support/design/23.1.0/res/drawable/design_snackbar_background.xml"
     },
     {
-        "merged": "/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/res/merged/debug/drawable/mint.jpg",
-        "source": "/Users/danielshih/AndroidStudioProjects/ArtGallery/app/src/main/res/drawable/mint.jpg"
-    },
-    {
-        "merged": "/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/res/merged/debug/drawable/beacon.png",
-        "source": "/Users/danielshih/AndroidStudioProjects/ArtGallery/app/src/main/res/drawable/beacon.png"
-    },
-    {
         "merged": "/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/res/merged/debug/drawable/abc_list_selector_background_transition_holo_dark.xml",
         "source": "/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/res/drawable/abc_list_selector_background_transition_holo_dark.xml"
     },
@@ -126,10 +114,6 @@
     {
         "merged": "/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/res/merged/debug/drawable/ic_collapse_holo_light.xml",
         "source": "/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/exploded-aar/com.ms-square/expandableTextView/0.1.4/res/drawable/ic_collapse_holo_light.xml"
-    },
-    {
-        "merged": "/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/res/merged/debug/drawable/blueberries.jpg",
-        "source": "/Users/danielshih/AndroidStudioProjects/ArtGallery/app/src/main/res/drawable/blueberries.jpg"
     },
     {
         "merged": "/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/res/merged/debug/drawable/abc_list_selector_holo_dark.xml",

@@ -19,8 +19,6 @@ import com.estimote.sdk.Beacon;
 import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.Region;
 
-
-import com.estimote.sdk.cloud.model.google.Beacons;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 
 import java.io.InputStream;
@@ -28,7 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static com.UciStudentCenterAndEventServices.ArtGallery.R.drawable.beacon;
 import static com.UciStudentCenterAndEventServices.ArtGallery.R.drawable.nothing_in_range;
 import static com.UciStudentCenterAndEventServices.ArtGallery.R.drawable.no_image;
 
