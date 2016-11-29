@@ -1,6 +1,7 @@
 package com.UciStudentCenterAndEventServices.ArtGallery;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.google.gson.*;
 import java.io.*;
@@ -8,7 +9,11 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 
+import static org.altbeacon.beacon.distance.CurveFittedDistanceCalculator.TAG;
+
+
 public class ExhibitConnection extends AsyncTask<Void, Void, ArrayList<ExhibitPiece>>{
+    private static final String TAG = "ExhibitConnection";
     final static String DATABASE_URL = "http://aladdin.studentcenter.uci.edu/ArtWebApi/api/Artwork/GetAssociatedArtwork";
 
     public interface AsyncResponse{
@@ -29,36 +34,37 @@ public class ExhibitConnection extends AsyncTask<Void, Void, ArrayList<ExhibitPi
 
     @Override
     protected void onPostExecute(ArrayList<ExhibitPiece>result) {
-        System.out.println("Got exhibit info!");
         delegate.processFinish(result);
     }
 
-    private static ArrayList<ExhibitPiece> getExhibitInfo() {
+    private static ArrayList<ExhibitPiece> getExhibitInfo(){
         ArrayList<ExhibitPiece> piecesList = new ArrayList<ExhibitPiece>();
 
         JsonArray exhibitArray = getJsonArray();
 
-        for (JsonElement dict : exhibitArray){
-            JsonObject artPiece = dict.getAsJsonObject();
-            int resultId = artPiece.get("ArtworkId").getAsInt();
-            int resultExhibitId = artPiece.get("ExhibitId").getAsInt();
-            String resultTitle = artPiece.get("Title").getAsString();
-            int resultArtistId = artPiece.get("Artist").getAsJsonObject().get("Id").getAsInt();
-            String resultArtistName = artPiece.get("Artist").getAsJsonObject().get("Name").getAsString();
-            String resultArtistBlurb = artPiece.get("Artist").getAsJsonObject().get("Blurb").getAsString();
-            String resultArtistLogo = artPiece.get("Artist").getAsJsonObject().get("Logo").getAsString();
-            String resultBlurb = artPiece.get("Blurb").getAsString();
-            String resultPictureUrl = artPiece.get("PictureUrl").getAsString();
-            boolean isObselete = artPiece.get("IsObsolete").getAsBoolean();
-            int resultMajorId = artPiece.get("BeaconMajorId").getAsInt();
+        if(exhibitArray != null) {
+            for (JsonElement dict : exhibitArray) {
+                JsonObject artPiece = dict.getAsJsonObject();
+                int resultId = artPiece.get("ArtworkId").getAsInt();
+                int resultExhibitId = artPiece.get("ExhibitId").getAsInt();
+                String resultTitle = artPiece.get("Title").getAsString();
+                int resultArtistId = artPiece.get("Artist").getAsJsonObject().get("Id").getAsInt();
+                String resultArtistName = artPiece.get("Artist").getAsJsonObject().get("Name").getAsString();
+                String resultArtistBlurb = artPiece.get("Artist").getAsJsonObject().get("Blurb").getAsString();
+                String resultArtistLogo = artPiece.get("Artist").getAsJsonObject().get("Logo").getAsString();
+                String resultBlurb = artPiece.get("Blurb").getAsString();
+                String resultPictureUrl = artPiece.get("PictureUrl").getAsString();
+                boolean isObselete = artPiece.get("IsObsolete").getAsBoolean();
+                int resultMajorId = artPiece.get("BeaconMajorId").getAsInt();
 
-            ExhibitPiece piece = new ExhibitPiece(resultId, resultExhibitId, resultTitle,
-                                             resultArtistId, resultArtistName,
-                                             resultArtistBlurb,  resultArtistLogo, resultBlurb,
-                                             resultPictureUrl,   isObselete,  resultMajorId);
+                ExhibitPiece piece = new ExhibitPiece(resultId, resultExhibitId, resultTitle,
+                        resultArtistId, resultArtistName,
+                        resultArtistBlurb, resultArtistLogo, resultBlurb,
+                        resultPictureUrl, isObselete, resultMajorId);
 
-            piecesList.add(piece);
+                piecesList.add(piece);
 
+            }
         }
 
         return piecesList;
@@ -85,9 +91,11 @@ public class ExhibitConnection extends AsyncTask<Void, Void, ArrayList<ExhibitPi
             JsonElement jelement = new JsonParser().parse(response);
             jarray = jelement.getAsJsonArray();
 
+            Log.d(TAG, "Got exhibit info!");
+
 
         } catch (Exception e) {
-            System.out.println("COULD NOT LOAD EXHIBIT.");
+            Log.d(TAG, "COULD NOT LOAD EXHIBIT.");
             System.out.println(e.getLocalizedMessage());
             e.printStackTrace();
 

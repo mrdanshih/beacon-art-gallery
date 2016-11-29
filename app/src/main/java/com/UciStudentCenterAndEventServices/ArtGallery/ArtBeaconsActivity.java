@@ -1,9 +1,12 @@
 package com.UciStudentCenterAndEventServices.ArtGallery;
 
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -17,6 +20,7 @@ import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.Region;
 
 
+import com.estimote.sdk.cloud.model.google.Beacons;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 
 import java.io.InputStream;
@@ -49,7 +53,7 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.artGalleryToolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setElevation(3);
+        getSupportActionBar().setElevation(5);
 
         try {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -65,6 +69,7 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
         new ExhibitConnection(this).execute();
 
         doBeaconSearching();
+
 
     }
     
@@ -84,14 +89,28 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
 
             @Override
             public void onBeaconsDiscovered(Region region, List<Beacon> beaconList) {
+                //If the list of nearby Beacons is not empty, grab the first nearest beacon.
                 if(!beaconList.isEmpty()) {
                     emptyCredibility = 0;
                     Beacon nearestBeacon = beaconList.iterator().next();
 
-                    //If discovered new closest Beacon...
-                    //Basic nothing_in_range "credibility" test - If same new Beacon is seen for 2 cycles,
-                    //that Beacon will be seen as a credible new Beacon.
+                    /*If discovered new closest Beacon...
+                    Basic nothing_in_range "credibility" test - If same new Beacon is seen for 2 cycles,
+                    that Beacon will be seen as a credible new Beacon.
+                    */
+
                     if(!nearestBeacon.equals(currentBeacon)){
+                        /* Get the art piece info for the closest Beacon
+                        If there is no art piece association, then it will get an ExhibitPiece with
+                        prespecified values for unknown Beacons, allowing for the detection of such
+                        */
+                        ExhibitPiece artPiece = getPieceInfo(nearestBeacon);
+
+                        /* Credibility check. If the closest Beacon in this cycle is the same as the
+                            Beacon in the last cycle, then increase the credibility rating.
+                            If the credibility rating is high enough (seen same new Beacon for 3 cycles),
+                            then it is now the current art piece.
+                         */
                         if(nearestBeacon.equals(previousClosest)){
                             if(beaconCredibility == 2) {
                                 beaconCredibility = 0;
@@ -101,15 +120,14 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
                           
                                 Log.d(TAG, "Credible new Beacon: " + nearestBeacon.getMajor());
 
-                                ExhibitPiece artPiece = getPieceInfo(nearestBeacon);
                                 artistName = artPiece.artistName;
                                 artistInfo = artPiece.artistBlurb;
                                 pieceTitle = artPiece.title;
                                 pieceInfo = artPiece.blurb;
-                                beaconID = artPiece.beaconMajorId + "";
+                                beaconID = nearestBeacon.getMajor() + "";
                                 imageURL = artPiece.pictureUrl;
 
-
+                                //Sets the displayed Beacon info on the UI
                                 setExpandableInfoVisiblity(View.VISIBLE);
                                 setDisplayedPieceInfo(artistName, artistInfo, pieceTitle, pieceInfo, beaconID, imageURL);
 
@@ -120,10 +138,27 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
                             }
 
                         }else{
+                            /* Detection of new Beacons different from the last seen closest Beacon.
+                                If it's not an art piece, then the app will display the major ID at
+                                the bottom of the screen. If it's an art piece, the app will display
+                                the name (up to 10 chars) of the new art piece that was detected
+                             */
+
                             Log.d(TAG, "New Beacon: " + nearestBeacon.getMajor());
+                            String beaconNameOrID = "";
 
-                            final String newID = "Found " + getPieceInfo(nearestBeacon).beaconMajorId + " as new closest art piece...";
+                            if(artPiece.title.equals("Unknown Piece")){
+                                beaconNameOrID = nearestBeacon.getMajor() + "";
+                            }else{
+                                if(artPiece.title.length() < 10){
+                                    beaconNameOrID = "\"" + artPiece.title + "\"";
+                                }else{
+                                    beaconNameOrID = "\"" + artPiece.title.substring(10) +"...\"";
+                                }
 
+                            }
+
+                            final String newID = "Found " + beaconNameOrID + " as new closest art piece...";
                             setNewBeaconNotification(newID);
 
                             beaconCredibility = 0;
@@ -140,6 +175,10 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
                         previousClosest = nearestBeacon;
 
                     }
+
+                    /*If no Beacons seen for 4 cycles, then update the current display
+                        to show that no beacons have been detected.
+                     */
 
                 }else if(emptyCredibility == 3){
                     beaconCredibility = 0;
@@ -190,11 +229,14 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
     }
 
     private void setDisplayedPieceInfo(final String artistName, final String artistInfo, final String pieceTitle, final String pieceInfo, final String beaconID, final String imageURL){
+        /* Update the displayed piece info on the UI thread. Updates all the text and collapsible 
+            information, as well as executing the task for downloading the image and displaying it.
+         */
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 if(imageURL != null){
-                    DownloadImageTask task = new DownloadImageTask((ImageView) findViewById(R.id.artPieceImage));
+                    DownloadDisplayImageTask task = new DownloadDisplayImageTask((ImageView) findViewById(R.id.artPieceImage));
                     task.execute(imageURL);
 
                 }else{
@@ -224,7 +266,32 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
 
     @Override
     public void processFinish(ArrayList<ExhibitPiece> result){
+        /* Callback method for downloading the database from the UCI server.
+            If the database gives no art pieces, then display an error. Else, the database
+            has been successfully downloaded.
+         */
         piecesList = result;
+
+        if(piecesList.isEmpty()){
+            Log.d(TAG, "Unexpected database result - returned pieces list was empty...");
+            final AlertDialog databaseFailureDialog = new AlertDialog.Builder(this).create();
+            databaseFailureDialog.setCancelable(false);
+            databaseFailureDialog.setTitle("SCES Art Gallery Database Failure");
+            databaseFailureDialog.setMessage("A problem occurred while obtaining the gallery database. Either the database sever could not" +
+                    " reached or the application received unexpected results. \n\nThere maybe an issue with the connection (make sure to be using the UCI network or a VPN), or the database." +
+                    "\n\nThis app cannot display art piece information without obtaining gallery data from the database.");
+            databaseFailureDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Exit", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    finish();
+                }
+            });
+
+            databaseFailureDialog.show();
+
+        }else{
+            Log.d(TAG, "SCES Art Database downloaded!");
+        }
     }
 
 
@@ -232,7 +299,8 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
     protected void onResume() {
         super.onResume();
 
-        if(beaconManager != null) {
+
+        if(beaconManager != null && region != null) {
             beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
                 @Override
                 //Starts the ranging of the beacons
@@ -240,6 +308,7 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
                     beaconManager.startRanging(region);
                 }
             });
+
         }
 
         Log.d(TAG, "Starting Beacon ranging.");
@@ -250,7 +319,7 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
     protected void onPause(){
         super.onPause();
 
-        if(beaconManager != null) {
+        if(beaconManager != null && region != null) {
             beaconManager.stopRanging(region);
             Log.d(TAG, "Stopping Beacon ranging.");
         }
@@ -266,7 +335,12 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
     
 
     private ExhibitPiece getPieceInfo(Beacon beaconDetails){
-        ExhibitPiece associatedPiece = new ExhibitPiece(0, 0, "Unknown Piece!", 0,
+        /* Returns an ExhibitPiece object associated with the given Beacon.
+
+            Searches through the stored art piece list (from the database) and
+            finds the match with the given Beacon.
+         */
+        ExhibitPiece associatedPiece = new ExhibitPiece(0, 0, "Unknown Piece", 0,
                                                         "Major ID is " + beaconDetails.getMajor(),
                                                         "","","","",true,0);
 
@@ -282,10 +356,12 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
     }
 
 
-    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+    private class DownloadDisplayImageTask extends AsyncTask<String, Void, Bitmap> {
+        // An AsynchronousTask for downloading and displaying art piece images.
+
         ImageView bmImage;
 
-        public DownloadImageTask(ImageView bmImage) {
+        public DownloadDisplayImageTask(ImageView bmImage) {
             this.bmImage = bmImage;
         }
 

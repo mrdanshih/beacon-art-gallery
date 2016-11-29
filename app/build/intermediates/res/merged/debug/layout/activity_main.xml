@@ -21,7 +21,11 @@
         android:layout_below="@+id/textView"
         android:layout_alignEnd="@+id/button2"
         android:layout_alignStart="@+id/button2"
-        android:onClick="startArtGallery" />
+        android:padding="20dip"
+        android:onClick="startArtGallery"
+        style="@style/Widget.AppCompat.Button"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
 
     <Button
         android:text="Student Center Navigation"
@@ -31,7 +35,10 @@
         android:layout_below="@+id/button"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="14dp"
-        android:onClick="startNavigationActivity" />
+        android:padding="20dip"
+        android:onClick="startNavigationActivity"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
 
     <TextView
         android:text="Student Center"

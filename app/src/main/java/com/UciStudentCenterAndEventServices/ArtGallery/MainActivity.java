@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             if (this.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
                 final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setCancelable(false);
                 builder.setTitle("Grant location access permissions");
                 builder.setMessage("This app uses Bluetooth and location services to detect beacons.");
                 builder.setPositiveButton(android.R.string.ok, null);
@@ -86,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             } else {
                 // Permission request was denied.
                 final AlertDialog noLocationDialog = new AlertDialog.Builder(this).create();
+                noLocationDialog.setCancelable(false);
                 noLocationDialog.setTitle("Location permission denied");
                 noLocationDialog.setMessage("This app requires location permissions to detect nearby Beacons for its functionality.");
                 noLocationDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Try again", new DialogInterface.OnClickListener() {
@@ -118,6 +120,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         }else{
             System.out.println("NO INTERNET CONNECTION");
             final AlertDialog noInternetDialog = new AlertDialog.Builder(this).create();
+            noInternetDialog.setCancelable(false);
             noInternetDialog.setTitle("No internet connection.");
             noInternetDialog.setMessage("This app requires an internet connection to function. Connect to the internet and try again.");
             noInternetDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Try again", new DialogInterface.OnClickListener() {

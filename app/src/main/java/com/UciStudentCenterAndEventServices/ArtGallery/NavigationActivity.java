@@ -54,7 +54,15 @@ public class NavigationActivity extends AppCompatActivity implements BeaconConsu
                 if (!beaconList.isEmpty()) {
                     Iterator<Beacon> iterator = beaconList.iterator();
                     Beacon nearestBeacon = iterator.next();
+                    System.out.println("BEGIN");
+                    System.out.println(nearestBeacon.getId2() + " " + nearestBeacon.getDistance());
+                    while (iterator.hasNext()){
+                        Beacon b = iterator.next();
+                        System.out.println(b.getId2() + " " + b.getDistance());
 
+                    }
+
+                    System.out.println("END");
                     Log.d(TAG, "BEACON 1!: " + nearestBeacon.getId2());
 
                     String major1 = nearestBeacon.getId2().toString();
