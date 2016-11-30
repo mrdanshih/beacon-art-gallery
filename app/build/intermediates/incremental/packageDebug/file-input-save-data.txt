@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Mon Nov 28 17:20:13 PST 2016
+#Mon Nov 28 17:27:01 PST 2016
 175.set=ANDROID_RESOURCE
 122.file=/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/res/resources-debug.ap_/res/drawable/abc_list_selector_background_transition_holo_dark.xml
 60.set=ANDROID_RESOURCE

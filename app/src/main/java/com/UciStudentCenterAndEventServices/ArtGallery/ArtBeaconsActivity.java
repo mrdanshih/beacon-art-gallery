@@ -1,5 +1,6 @@
 package com.UciStudentCenterAndEventServices.ArtGallery;
 
+import android.bluetooth.BluetoothAdapter;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -19,6 +20,7 @@ import com.estimote.sdk.Beacon;
 import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.Region;
 
+import com.estimote.sdk.Utils;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 
 import java.io.InputStream;
@@ -67,7 +69,6 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
 
         doBeaconSearching();
 
-
     }
     
  
@@ -87,6 +88,7 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
             @Override
             public void onBeaconsDiscovered(Region region, List<Beacon> beaconList) {
                 //If the list of nearby Beacons is not empty, grab the first nearest beacon.
+
                 if(!beaconList.isEmpty()) {
                     emptyCredibility = 0;
                     Beacon nearestBeacon = beaconList.iterator().next();
@@ -150,7 +152,7 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
                                 if(artPiece.title.length() < 10){
                                     beaconNameOrID = "\"" + artPiece.title + "\"";
                                 }else{
-                                    beaconNameOrID = "\"" + artPiece.title.substring(10) +"...\"";
+                                    beaconNameOrID = "\"" + artPiece.title.substring(0, 10) +"...\"";
                                 }
 
                             }

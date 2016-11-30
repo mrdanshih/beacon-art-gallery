@@ -2266,6 +2266,7 @@ containing a value of this type.
         public static final int artGalleryToolbar=0x7f0c006c;
         public static final int artPieceImage=0x7f0c006f;
         public static final int artPieceName=0x7f0c0071;
+        public static final int art_gallery_view=0x7f0c006b;
         public static final int artistInfoView=0x7f0c0075;
         public static final int artistName=0x7f0c0072;
         public static final int artworkInfoView=0x7f0c0076;
@@ -2323,7 +2324,6 @@ containing a value of this type.
         public static final int listMode=0x7f0c000d;
         public static final int list_item=0x7f0c0043;
         public static final int loadImageSpinner=0x7f0c006e;
-        public static final int main=0x7f0c006b;
         public static final int media_actions=0x7f0c008d;
         public static final int middle=0x7f0c0033;
         public static final int mini=0x7f0c0031;

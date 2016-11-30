@@ -83,10 +83,10 @@ ADDED from /Users/danielshih/AndroidStudioProjects/ArtGallery/app/src/main/Andro
 		ADDED from /Users/danielshih/AndroidStudioProjects/ArtGallery/app/src/main/AndroidManifest.xml:29:13-55
 	android:name
 		ADDED from /Users/danielshih/AndroidStudioProjects/ArtGallery/app/src/main/AndroidManifest.xml:28:13-47
-activity#com.UciStudentCenterAndEventServices.ArtGallery.NavigationActivity
-ADDED from /Users/danielshih/AndroidStudioProjects/ArtGallery/app/src/main/AndroidManifest.xml:31:9-65
+activity#com.UciStudentCenterAndEventServices.ArtGallery.NavigationActivityEstimote
+ADDED from /Users/danielshih/AndroidStudioProjects/ArtGallery/app/src/main/AndroidManifest.xml:31:9-73
 	android:name
-		ADDED from /Users/danielshih/AndroidStudioProjects/ArtGallery/app/src/main/AndroidManifest.xml:31:19-53
+		ADDED from /Users/danielshih/AndroidStudioProjects/ArtGallery/app/src/main/AndroidManifest.xml:31:19-61
 uses-sdk
 INJECTED from /Users/danielshih/AndroidStudioProjects/ArtGallery/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 MERGED from [com.android.support:design:23.1.0] /Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/exploded-aar/com.android.support/design/23.1.0/AndroidManifest.xml:20:5-43

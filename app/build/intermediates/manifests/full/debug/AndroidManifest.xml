@@ -45,7 +45,7 @@
             android:name="com.UciStudentCenterAndEventServices.ArtGallery.ArtBeaconsActivity"
             android:parentActivityName="com.UciStudentCenterAndEventServices.ArtGallery.MainActivity"
             android:screenOrientation="portrait" />
-        <activity android:name="com.UciStudentCenterAndEventServices.ArtGallery.NavigationActivity" />
+        <activity android:name="com.UciStudentCenterAndEventServices.ArtGallery.NavigationActivityEstimote" />
 
         <service
             android:name="com.estimote.sdk.service.BeaconService"

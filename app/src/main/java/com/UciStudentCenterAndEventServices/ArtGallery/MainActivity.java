@@ -10,6 +10,7 @@ import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
+import android.os.Handler;
 import android.provider.Settings;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -43,13 +44,14 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     }
 
     public void startNavigationActivity(View view){
-        Intent navIntent = new Intent(this, NavigationActivity.class);
+//        Intent navIntent = new Intent(this, NavigationActivity.class);
+        Intent navIntent = new Intent(this, NavigationActivityEstimote.class);
         startActivity(navIntent);
+
+
     }
 
     private void locationPermissionCheck(){
-
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
             if (this.checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
@@ -154,22 +156,20 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
         final BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
         if (!adapter.isEnabled()){
-            final AlertDialog locationOffDialog = new AlertDialog.Builder(this).create();
-            locationOffDialog.setTitle("Bluetooth is off");
-            locationOffDialog.setMessage("This app uses Bluetooth for Beacon detection. Turn it on?");
-            locationOffDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK", new DialogInterface.OnClickListener() {
+            final AlertDialog bluetoothOffDialog = new AlertDialog.Builder(this).create();
+            bluetoothOffDialog.setTitle("Bluetooth is off");
+            bluetoothOffDialog.setMessage("This app uses Bluetooth for Beacon detection. Turn it on?");
+            bluetoothOffDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     adapter.enable();
+
                     Snackbar.make(mainView, "Turned on Bluetooth.",
                             Snackbar.LENGTH_SHORT)
                             .show();
                 }
             });
-
-            locationOffDialog.show();
-
-
+            bluetoothOffDialog.show();
         }
     }
 

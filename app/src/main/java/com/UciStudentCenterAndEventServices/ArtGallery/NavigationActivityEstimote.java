@@ -11,27 +11,76 @@ import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.Region;
 import com.estimote.sdk.Utils;
 
-import org.altbeacon.beacon.BeaconConsumer;
-import org.altbeacon.beacon.BeaconParser;
-import org.altbeacon.beacon.RangeNotifier;
 
+import java.lang.reflect.Array;
 import java.text.DecimalFormat;
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
-import static org.altbeacon.beacon.Identifier.fromUuid;
 
+
+class PositionBeacon{
+    private int majorID;
+    private double x;
+    private double y;
+
+
+    public PositionBeacon(int majorID, double x, double y){
+        this.majorID = majorID;
+        this.x = x;
+        this.y = y;
+
+    }
+
+    public int getMajorID(){
+        return majorID;
+    }
+
+    public double getX(){
+        return x;
+    }
+
+    public double getY(){
+        return y;
+    }
+}
+
+class Point{
+    double x, y;
+
+    public Point(double x, double y){
+        this.x = x;
+        this.y = y;
+    }
+
+    public double getX(){
+        return x;
+    }
+
+    public double getY(){
+        return y;
+    }
+}
 
 public class NavigationActivityEstimote extends AppCompatActivity {
     private static final String TAG = "NavigationActivity";
     String artGalleryUUID = "B9407F30-F5F8-466E-AFF9-25556B57FE6D";
+    PositionBeacon b = new PositionBeacon(27031, 0, 0);
+
+    private PositionBeacon[] beaconList = {new PositionBeacon(27031, 0, 0), new PositionBeacon(30586, -1, -1),
+                                            new PositionBeacon(65193, -1, -2.4), new PositionBeacon(34821, 0, 3.2),
+                                            new PositionBeacon(52757, -0.5, 5), new PositionBeacon(7847, -1.7, 3.8),
+                                            new PositionBeacon(43243, -3, 3.8)};
+
     private BeaconManager beaconManager;
     private Region region;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
 
@@ -39,7 +88,6 @@ public class NavigationActivityEstimote extends AppCompatActivity {
 
         doBeaconSearching();
 
-        //
 
     }
 
@@ -49,9 +97,8 @@ public class NavigationActivityEstimote extends AppCompatActivity {
             public void onBeaconsDiscovered(Region region, List<Beacon> beaconList) {
                 if (!beaconList.isEmpty()) {
                     Iterator<Beacon> iterator = beaconList.iterator();
-                    Beacon nearestBeacon = iterator.next();
+                    Beacon nearestBeacon = beaconList.get(0);
                     System.out.println("BEGIN");
-                    System.out.println(nearestBeacon.getMajor() + " " + Utils.computeAccuracy(nearestBeacon));
                     while (iterator.hasNext()){
                         Beacon b = iterator.next();
                         System.out.println(b.getMajor() + " " + Utils.computeAccuracy(b));
@@ -67,7 +114,7 @@ public class NavigationActivityEstimote extends AppCompatActivity {
                     setInfo(R.id.navBeaconID, R.id.navDistance, major1, distance1);
 
 
-                    if(iterator.hasNext()){
+                    if(beaconList.size() >= 2){
                         Beacon secondNearest = iterator.next();
                         Log.d(TAG, "BEACON 2!: " + secondNearest.getMajor());
                         String major2 = secondNearest.getMajor() + "";
@@ -77,6 +124,11 @@ public class NavigationActivityEstimote extends AppCompatActivity {
                     }else{
                         setInfo(R.id.navBeacon2ID, R.id.navDistance2, "NONE", "NONE");
                     }
+
+
+                    Beacon[] threeBeacons;
+                    //TODO - make 3 beacon sublist, pass in to the getCoordinate method, and test.
+
 
                 }else{
                     setInfo(R.id.navBeaconID, R.id.navDistance, "NONE", "NONE");
@@ -137,5 +189,62 @@ public class NavigationActivityEstimote extends AppCompatActivity {
     }
 
 
+    private Point getCoordinate(Beacon[] threeBeaconsList){
+        double distanceA, distanceB, distanceC;
+        double pointA1, pointA2, pointB1, pointB2, pointC1, pointC2;
+
+        ArrayList<PositionBeacon> selectedBeacons = new ArrayList<PositionBeacon>();
+
+        double[] distancesList = {0,0,0};
+
+        for(int i = 0; i < threeBeaconsList.length; i++){
+            selectedBeacons.add(getCorrespondingPositionBeacon(threeBeaconsList[i]));
+            distancesList[i] = Utils.computeAccuracy(threeBeaconsList[i]);
+        }
+
+        if(selectedBeacons.size() == 3) {
+            distanceA = distancesList[0];
+            distanceB = distancesList[1];
+            distanceC = distancesList[2];
+
+            pointA1 = selectedBeacons.get(0).getX();
+            pointA2 = selectedBeacons.get(0).getY();
+
+            pointB1 = selectedBeacons.get(0).getX();
+            pointB2 = selectedBeacons.get(0).getY();
+
+            pointC1 = selectedBeacons.get(0).getX();
+            pointC2 = selectedBeacons.get(0).getY();
+
+
+            double w, z, x, y, y2;
+            w = distanceA * distanceA - distanceB * distanceB - pointA1 * pointA1 - pointA2 * pointA2 + pointB1 * pointB1 + pointB2 * pointB2;
+
+            z = distanceB * distanceB - distanceC * distanceC - pointB1 * pointB1 - pointB2 * pointB2 + pointC1 * pointC1 + pointC2 * pointC2;
+
+            x = (w * (pointC2 - pointB2) - z * (pointB2 - pointA2)) / (2 * ((pointB1 - pointA1) * (pointC1 - pointB2) - (pointC1 - pointB1) * (pointB2 - pointA2)));
+
+            y = (w - 2 * x * (pointB1 - pointA1)) / (2 * (pointB2 - pointA2));
+
+            y2 = (z - 2 * x * (pointC1 - pointB1)) / (2 * (pointC1 - pointB2));
+
+            y = (y + y2) / 2;
+
+            return new Point(x, y);
+        }else{
+            return new Point(-999,-999);
+        }
+    }
+
+    private PositionBeacon getCorrespondingPositionBeacon(Beacon beacon){
+        for(PositionBeacon positionBeacon: beaconList){
+            if(positionBeacon.getMajorID() == beacon.getMajor()){
+                return positionBeacon;
+            }
+        }
+    }
+
 }
+
+
 
