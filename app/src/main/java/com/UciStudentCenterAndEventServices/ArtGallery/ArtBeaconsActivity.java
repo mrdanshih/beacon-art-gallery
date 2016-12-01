@@ -1,12 +1,10 @@
 package com.UciStudentCenterAndEventServices.ArtGallery;
 
-import android.bluetooth.BluetoothAdapter;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -20,7 +18,6 @@ import com.estimote.sdk.Beacon;
 import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.Region;
 
-import com.estimote.sdk.Utils;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 
 import java.io.InputStream;
@@ -93,24 +90,28 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
                     emptyCredibility = 0;
                     Beacon nearestBeacon = beaconList.iterator().next();
 
+
+
+                    if(!nearestBeacon.equals(currentBeacon)){
                     /*If discovered new closest Beacon...
                     Basic nothing_in_range "credibility" test - If same new Beacon is seen for 2 cycles,
                     that Beacon will be seen as a credible new Beacon.
                     */
 
-                    if(!nearestBeacon.equals(currentBeacon)){
+                        ExhibitPiece artPiece = getPieceInfo(nearestBeacon);
+
                         /* Get the art piece info for the closest Beacon
                         If there is no art piece association, then it will get an ExhibitPiece with
                         prespecified values for unknown Beacons, allowing for the detection of such
                         */
-                        ExhibitPiece artPiece = getPieceInfo(nearestBeacon);
 
-                        /* Credibility check. If the closest Beacon in this cycle is the same as the
+
+                        if(nearestBeacon.equals(previousClosest)){
+                            /* Credibility check. If the closest Beacon in this cycle is the same as the
                             Beacon in the last cycle, then increase the credibility rating.
                             If the credibility rating is high enough (seen same new Beacon for 3 cycles),
                             then it is now the current art piece.
-                         */
-                        if(nearestBeacon.equals(previousClosest)){
+                             */
                             if(beaconCredibility == 2) {
                                 beaconCredibility = 0;
 
@@ -175,11 +176,11 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
 
                     }
 
+
+                }else if(emptyCredibility == 3){
                     /*If no Beacons seen for 4 cycles, then update the current display
                         to show that no beacons have been detected.
                      */
-
-                }else if(emptyCredibility == 3){
                     beaconCredibility = 0;
                     emptyCredibility = 0;
                     currentBeacon = null;
@@ -219,6 +220,7 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
     }
 
     private void setNewBeaconNotification(final String newID){
+
         runOnUiThread(new Runnable() {
             @Override
             public void run() {

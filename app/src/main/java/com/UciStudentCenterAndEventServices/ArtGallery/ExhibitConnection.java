@@ -37,13 +37,16 @@ public class ExhibitConnection extends AsyncTask<Void, Void, ArrayList<ExhibitPi
         delegate.processFinish(result);
     }
 
+    /** Returns an ArrayList of ExhibitPieces by obtaining a JsonArray from the database and parsing it */
     private static ArrayList<ExhibitPiece> getExhibitInfo(){
         ArrayList<ExhibitPiece> piecesList = new ArrayList<ExhibitPiece>();
 
+        //Gets the JsonArray
         JsonArray exhibitArray = getJsonArray();
 
         if(exhibitArray != null) {
             for (JsonElement dict : exhibitArray) {
+                //Iterates through the Art Pieces stored in the JsonArray
                 JsonObject artPiece = dict.getAsJsonObject();
                 int resultId = artPiece.get("ArtworkId").getAsInt();
                 int resultExhibitId = artPiece.get("ExhibitId").getAsInt();
@@ -70,6 +73,10 @@ public class ExhibitConnection extends AsyncTask<Void, Void, ArrayList<ExhibitPi
         return piecesList;
     }
 
+    /**Returns a JsonArray object obtained from the online database, by accessing
+     * the UCI Student Center art piece database and parsing that response into a JsonArray object.
+     * @return JsonArray
+     */
     private static JsonArray getJsonArray() {
         JsonArray jarray = null;
 
