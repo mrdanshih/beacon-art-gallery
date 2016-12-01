@@ -15,6 +15,7 @@ import com.estimote.sdk.Utils;
 import java.lang.reflect.Array;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
@@ -69,10 +70,10 @@ public class NavigationActivityEstimote extends AppCompatActivity {
     String artGalleryUUID = "B9407F30-F5F8-466E-AFF9-25556B57FE6D";
     PositionBeacon b = new PositionBeacon(27031, 0, 0);
 
-    private PositionBeacon[] beaconList = {new PositionBeacon(27031, 0, 0), new PositionBeacon(30586, -1, -1),
-                                            new PositionBeacon(65193, -1, -2.4), new PositionBeacon(34821, 0, 3.2),
-                                            new PositionBeacon(52757, -0.5, 5), new PositionBeacon(7847, -1.7, 3.8),
-                                            new PositionBeacon(43243, -3, 3.8)};
+    private PositionBeacon[] beaconList = {new PositionBeacon(27031, 20, 10), new PositionBeacon(30586, 0, 20),
+                                            new PositionBeacon(65193, 0, 0), new PositionBeacon(34821, 20, 30),
+                                            new PositionBeacon(52757, 10, 40), new PositionBeacon(7847, -10, 35),
+                                            new PositionBeacon(43243, -30, 40)};
 
     private BeaconManager beaconManager;
     private Region region;
@@ -115,10 +116,10 @@ public class NavigationActivityEstimote extends AppCompatActivity {
 
 
                     if(beaconList.size() >= 2){
-                        Beacon secondNearest = iterator.next();
+                        Beacon secondNearest = beaconList.get(1);
                         Log.d(TAG, "BEACON 2!: " + secondNearest.getMajor());
                         String major2 = secondNearest.getMajor() + "";
-                        String distance2 = new DecimalFormat("#.###").format(secondNearest.getMajor());
+                        String distance2 = new DecimalFormat("#.###").format(Utils.computeAccuracy(secondNearest));
                         setInfo(R.id.navBeacon2ID, R.id.navDistance2, major2, distance2);
 
                     }else{
@@ -126,8 +127,23 @@ public class NavigationActivityEstimote extends AppCompatActivity {
                     }
 
 
-                    Beacon[] threeBeacons;
+                    Beacon[] threeBeacons = {null, null, null};
+
                     //TODO - make 3 beacon sublist, pass in to the getCoordinate method, and test.
+
+                    if(beaconList.size() >= 3){
+                        for(int i = 0; i < 3; i++){
+                            threeBeacons[i] = beaconList.get(i);
+                        }
+
+                        if(!Arrays.asList(threeBeacons).contains(null)) {
+                            Point point = getCoordinate(threeBeacons);
+
+                            String coordinates = "(" + point.getX() + "," + point.getY() + ")";
+
+                            setInfo(R.id.navBeacon2ID, R.id.navDistance2, "Coordinate:", coordinates);
+                        }
+                    }
 
 
                 }else{
@@ -202,6 +218,10 @@ public class NavigationActivityEstimote extends AppCompatActivity {
             distancesList[i] = Utils.computeAccuracy(threeBeaconsList[i]);
         }
 
+        if (selectedBeacons.contains(null)){
+            return new Point(-999,-999);
+        }
+
         if(selectedBeacons.size() == 3) {
             distanceA = distancesList[0];
             distanceB = distancesList[1];
@@ -210,11 +230,11 @@ public class NavigationActivityEstimote extends AppCompatActivity {
             pointA1 = selectedBeacons.get(0).getX();
             pointA2 = selectedBeacons.get(0).getY();
 
-            pointB1 = selectedBeacons.get(0).getX();
-            pointB2 = selectedBeacons.get(0).getY();
+            pointB1 = selectedBeacons.get(1).getX();
+            pointB2 = selectedBeacons.get(1).getY();
 
-            pointC1 = selectedBeacons.get(0).getX();
-            pointC2 = selectedBeacons.get(0).getY();
+            pointC1 = selectedBeacons.get(2).getX();
+            pointC2 = selectedBeacons.get(2).getY();
 
 
             double w, z, x, y, y2;
@@ -230,6 +250,8 @@ public class NavigationActivityEstimote extends AppCompatActivity {
 
             y = (y + y2) / 2;
 
+            System.out.println(x + " , " + y);
+
             return new Point(x, y);
         }else{
             return new Point(-999,-999);
@@ -242,6 +264,8 @@ public class NavigationActivityEstimote extends AppCompatActivity {
                 return positionBeacon;
             }
         }
+
+        return null;
     }
 
 }
