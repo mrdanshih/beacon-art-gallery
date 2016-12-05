@@ -1,6 +1,7 @@
 package com.UciStudentCenterAndEventServices.ArtGallery;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -27,6 +28,7 @@ import java.util.UUID;
 
 import static com.UciStudentCenterAndEventServices.ArtGallery.R.drawable.nothing_in_range;
 import static com.UciStudentCenterAndEventServices.ArtGallery.R.drawable.no_image;
+import static com.UciStudentCenterAndEventServices.ArtGallery.R.id.beaconID;
 
 
 public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConnection.AsyncResponse {
@@ -87,6 +89,7 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
                 //If the list of nearby Beacons is not empty, grab the first nearest beacon.
 
                 if(!beaconList.isEmpty()) {
+                    findViewById(R.id.initialSearchSpinner).setVisibility(View.GONE);
                     emptyCredibility = 0;
                     Beacon nearestBeacon = beaconList.iterator().next();
 
@@ -181,9 +184,11 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
                     /*If no Beacons seen for 4 cycles, then update the current display
                         to show that no beacons have been detected.
                      */
+                    findViewById(R.id.initialSearchSpinner).setVisibility(View.VISIBLE);
                     beaconCredibility = 0;
                     emptyCredibility = 0;
                     currentBeacon = null;
+
                     Log.d(TAG, "No beacons in range for 3 cycles!");
 
                     artistName = "No art piece in range!";
@@ -195,6 +200,7 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
 
                     setExpandableInfoVisiblity(View.GONE);
                     setDisplayedPieceInfo(artistName, artistInfo, pieceTitle, pieceInfo, beaconID, imageURL);
+                    setNewBeaconNotification("Searching for beacons...");
 
                 }else{
                     emptyCredibility++;
@@ -224,7 +230,7 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                ((TextView) findViewById(R.id.beaconID)).setText(newID);
+                ((TextView) findViewById(beaconID)).setText(newID);
             }
         });
     }
@@ -256,13 +262,15 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
                 ExpandableTextView artInfoExpandable = (ExpandableTextView) findViewById(R.id.artworkInfoView).findViewById(R.id.expand_text_view);
                 artInfoExpandable.setText(pieceInfo);
 
-                ((TextView) findViewById(R.id.beaconID)).setText(beaconID);
-
-
+                setBeaconIDText(beaconID);
 
             }
         });
 
+    }
+
+    private void setBeaconIDText(String beaconIDText){
+        ((TextView) findViewById(beaconID)).setText(beaconIDText);
     }
 
     @Override
@@ -330,10 +338,17 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
+        if(beaconManager != null && region != null) {
+            beaconManager.stopRanging(region);
+
+        }
+
         beaconManager.disconnect();
+
         
     }
-    
+
 
     private ExhibitPiece getPieceInfo(Beacon beaconDetails){
         /* Returns an ExhibitPiece object associated with the given Beacon.
@@ -344,11 +359,12 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
         ExhibitPiece associatedPiece = new ExhibitPiece(0, 0, "Unknown Piece", 0,
                                                         "Major ID is " + beaconDetails.getMajor(),
                                                         "","","","",true,0);
-
-        for(ExhibitPiece piece: piecesList){
-            if (piece.beaconMajorId == beaconDetails.getMajor()){
-                associatedPiece = piece;
-                break;
+        if(piecesList != null) {
+            for (ExhibitPiece piece : piecesList) {
+                if (piece.beaconMajorId == beaconDetails.getMajor()) {
+                    associatedPiece = piece;
+                    break;
+                }
             }
         }
 
@@ -367,7 +383,9 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
         }
 
         protected void onPreExecute() {
+            Transitions.fadeOutImage(bmImage);
             bmImage.setVisibility(View.INVISIBLE);
+
             findViewById(R.id.loadImageSpinner).setVisibility(View.VISIBLE);
         }
 
@@ -396,8 +414,10 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
                 bmImage.setImageResource(no_image);
             }
 
-            findViewById(R.id.loadImageSpinner).setVisibility(View.INVISIBLE);
             bmImage.setVisibility(View.VISIBLE);
+            Transitions.fadeInImage(bmImage);
+            findViewById(R.id.loadImageSpinner).setVisibility(View.INVISIBLE);
+
         }
     }
 

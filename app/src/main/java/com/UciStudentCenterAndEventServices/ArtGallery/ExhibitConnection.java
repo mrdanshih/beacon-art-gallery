@@ -9,7 +9,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 
-import static org.altbeacon.beacon.distance.CurveFittedDistanceCalculator.TAG;
 
 
 public class ExhibitConnection extends AsyncTask<Void, Void, ArrayList<ExhibitPiece>>{
