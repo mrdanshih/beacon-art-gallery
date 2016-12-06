@@ -1,7 +1,6 @@
 package com.UciStudentCenterAndEventServices.ArtGallery;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -29,6 +28,7 @@ import java.util.UUID;
 import static com.UciStudentCenterAndEventServices.ArtGallery.R.drawable.nothing_in_range;
 import static com.UciStudentCenterAndEventServices.ArtGallery.R.drawable.no_image;
 import static com.UciStudentCenterAndEventServices.ArtGallery.R.id.beaconID;
+import static com.UciStudentCenterAndEventServices.ArtGallery.R.id.image;
 
 
 public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConnection.AsyncResponse {
@@ -67,9 +67,6 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
         new ExhibitConnection(this).execute();
 
         doBeaconSearching();
-
-    }
-    
  
     private void doBeaconSearching(){
         beaconManager.setRangingListener(new BeaconManager.RangingListener() {
@@ -247,7 +244,8 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
                     task.execute(imageURL);
 
                 }else{
-                    ((ImageView) findViewById(R.id.artPieceImage)).setImageResource(nothing_in_range);
+                    ImageView imageView = (ImageView) findViewById(R.id.artPieceImage);
+                    imageView.setImageResource(nothing_in_range);
                 }
 
 
