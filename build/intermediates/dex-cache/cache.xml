@@ -66,6 +66,15 @@
     </item>
     <item
         is-multidex="false"
+        jar="/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/exploded-aar/com.indooratlas.android/indooratlas-android-sdk/2.2.4/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="23.0.3"
+        sha1="0d6ee190977023891cc25995256d6c8cca81f6b1">
+        <dex dex="/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/pre-dexed/debug/com.indooratlas.android-indooratlas-android-sdk-2.2.4_8844e0bcf0827eb4722c8d1bb44d88df7343fb10.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/23.1.0/jars/classes.jar"
         jumboMode="false"
         optimize="true"

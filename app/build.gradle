@@ -29,4 +29,12 @@ dependencies {
     compile 'com.ms-square:expandableTextView:0.1.4'
     compile 'com.estimote:sdk:0.13.0'
     compile 'org.altbeacon:android-beacon-library:2.9.1'
+    compile 'com.indooratlas.android:indooratlas-android-sdk:2.2.4@aar'
+
+}
+
+repositories {
+    maven{
+        url "http://indooratlas-ltd.bintray.com/mvn-public"
+    }
 }

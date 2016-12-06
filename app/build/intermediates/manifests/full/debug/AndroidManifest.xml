@@ -25,6 +25,23 @@
 
     <uses-permission-sdk-23 android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <uses-feature
+        android:name="android.hardware.sensor.accelerometer"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.sensor.compass"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.sensor.gyroscope"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.wifi"
+        android:required="true" />
+
     <application
         android:name="com.UciStudentCenterAndEventServices.ArtGallery.ZotGalleryApplication"
         android:allowBackup="true"
@@ -46,6 +63,13 @@
             android:parentActivityName="com.UciStudentCenterAndEventServices.ArtGallery.MainActivity"
             android:screenOrientation="portrait" />
         <activity android:name="com.UciStudentCenterAndEventServices.ArtGallery.NavigationActivityEstimote" />
+
+        <meta-data
+            android:name="com.indooratlas.android.sdk.API_KEY"
+            android:value="0a36df01-8c33-45e9-884b-d0c3a1aac5ce" />
+        <meta-data
+            android:name="com.indooratlas.android.sdk.API_SECRET"
+            android:value="CFYuE7/rEU7MZJWS1vV3nZOH4Ep+jLGxwuf4JMRnLl3WcZlwyCYTYB/6HL6AGkjxJ56vC/kHkUk5csLudOeQ6cNw721GEvfzBJtvwPek8eQ3On83NXlZeI38kSfD8A==" />
 
         <service
             android:name="com.estimote.sdk.service.BeaconService"
@@ -80,6 +104,9 @@
             android:name="org.altbeacon.beacon.BeaconIntentProcessor"
             android:enabled="true"
             android:exported="false" />
+        <service
+            android:name="com.indooratlas.android.sdk.IALocationService"
+            android:label="IALocationService" />
     </application>
 
 </manifest>

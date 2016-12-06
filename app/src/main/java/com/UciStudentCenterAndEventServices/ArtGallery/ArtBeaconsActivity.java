@@ -21,6 +21,8 @@ import com.estimote.sdk.Region;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 
 import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -28,7 +30,6 @@ import java.util.UUID;
 import static com.UciStudentCenterAndEventServices.ArtGallery.R.drawable.nothing_in_range;
 import static com.UciStudentCenterAndEventServices.ArtGallery.R.drawable.no_image;
 import static com.UciStudentCenterAndEventServices.ArtGallery.R.id.beaconID;
-import static com.UciStudentCenterAndEventServices.ArtGallery.R.id.image;
 
 
 public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConnection.AsyncResponse {
@@ -56,17 +57,18 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
         try {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        }catch(NullPointerException e){
+        } catch (NullPointerException e) {
             System.out.println("COULD NOT SET ACTION BAR UP BUTTON");
             e.printStackTrace();
         }
 
         beaconManager = new BeaconManager(this);
-        
+
         //Download the exhibit and art piece information.
         new ExhibitConnection(this).execute();
 
         doBeaconSearching();
+    }
  
     private void doBeaconSearching(){
         beaconManager.setRangingListener(new BeaconManager.RangingListener() {
@@ -394,12 +396,16 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
             Bitmap imageBitmap = null;
 
             try {
-                InputStream in = new java.net.URL(urldisplay).openStream();
+                URL imageURL = new URL(urldisplay);
+                URLConnection connection = imageURL.openConnection();
+                connection.setConnectTimeout(10000);
+                connection.setReadTimeout(10000);
+                InputStream in = connection.getInputStream();
                 imageBitmap = BitmapFactory.decodeStream(in);
 
             } catch (Exception e) {
-                Log.e("Error", e.getMessage());
                 e.printStackTrace();
+
 
             }
             return imageBitmap;
