@@ -3,6 +3,7 @@ package com.UciStudentCenterAndEventServices.ArtGallery;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -19,6 +20,8 @@ import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.Region;
 
 import com.ms.square.android.expandabletextview.ExpandableTextView;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.io.InputStream;
 import java.net.URL;
@@ -242,8 +245,10 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
             @Override
             public void run() {
                 if(imageURL != null){
-                    DownloadDisplayImageTask task = new DownloadDisplayImageTask((ImageView) findViewById(R.id.artPieceImage));
-                    task.execute(imageURL);
+//                    DownloadDisplayImageTask task = new DownloadDisplayImageTask((ImageView) findViewById(R.id.artPieceImage));
+//                    task.execute(imageURL);
+                    loadImage((ImageView) findViewById(R.id.artPieceImage), imageURL);
+
 
                 }else{
                     ImageView imageView = (ImageView) findViewById(R.id.artPieceImage);
@@ -372,7 +377,43 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
 
     }
 
+    private void loadImage(final ImageView view, final String imageURL){
+        Target target = new Target() {
+            @Override
+            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                view.setImageBitmap(bitmap);
 
+                view.setVisibility(View.VISIBLE);
+                Transitions.fadeInImage(view);
+                findViewById(R.id.loadImageSpinner).setVisibility(View.INVISIBLE);
+
+            }
+            @Override
+            public void onBitmapFailed(Drawable errorDrawable) {
+            }
+
+            @Override
+            public void onPrepareLoad(Drawable placeHolderDrawable) {
+                Transitions.fadeOutImage(view);
+                view.setVisibility(View.INVISIBLE);
+
+                findViewById(R.id.loadImageSpinner).setVisibility(View.VISIBLE);
+            }
+        };
+
+        /*Uses Picasso library instead of raw image downloading since the library
+            automatically cancels and background downloads should a new download
+            be instantiated whilst one is currently in progress - i.e. if new image
+            is detected one that is currently downloading will have its download cancelled.
+
+            Also, Picasso caches images automatically, so they don't need to be redownloaded
+            each time.
+         */
+        Picasso.with(getApplicationContext()).load(imageURL).into(target);
+    }
+
+    /*
+    OLD CODE -- previously used for downloading and displaying images - replaced with Picasso library use
     private class DownloadDisplayImageTask extends AsyncTask<String, Void, Bitmap> {
         // An AsynchronousTask for downloading and displaying art piece images.
 
@@ -424,6 +465,7 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
 
         }
     }
+    */
 
 
 
