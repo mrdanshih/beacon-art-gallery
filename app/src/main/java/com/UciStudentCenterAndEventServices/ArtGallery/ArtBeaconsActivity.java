@@ -33,6 +33,7 @@ import java.util.UUID;
 import static com.UciStudentCenterAndEventServices.ArtGallery.R.drawable.nothing_in_range;
 import static com.UciStudentCenterAndEventServices.ArtGallery.R.drawable.no_image;
 import static com.UciStudentCenterAndEventServices.ArtGallery.R.id.beaconID;
+import static com.indooratlas.android.sdk._internal.ff.L;
 
 
 public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConnection.AsyncResponse {
@@ -409,12 +410,15 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
             Also, Picasso caches images automatically, so they don't need to be redownloaded
             each time.
          */
-        Picasso.with(getApplicationContext()).load(imageURL).into(target);
+        if(imageURL == ""){
+            Picasso.with(getApplicationContext()).load(no_image).into(target);
+        }else{
+            Picasso.with(getApplicationContext()).load(imageURL).error(no_image).into(target);
+        }
     }
-
     /*
     OLD CODE -- previously used for downloading and displaying images - replaced with Picasso library use
-    private class DownloadDisplayImageTask extends AsyncTask<String, Void, Bitmap> {
+    private class DownloadDisplayImageTask extends AsyncTask<String, Void, Bitmap>  {
         // An AsynchronousTask for downloading and displaying art piece images.
 
         ImageView bmImage;
