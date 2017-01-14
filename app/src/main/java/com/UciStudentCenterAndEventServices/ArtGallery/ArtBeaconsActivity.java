@@ -73,7 +73,38 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
 
         doBeaconSearching();
     }
- 
+
+    @Override
+    public void processFinish(ArrayList<ExhibitPiece> result){
+        /* Callback method for downloading the database from the UCI server.
+            If the database gives no art pieces, then display an error. Else, the database
+            has been successfully downloaded.
+         */
+        piecesList = result;
+
+        if(piecesList.isEmpty()){
+            Log.d(TAG, "Unexpected database result - returned pieces list was empty...");
+            final AlertDialog databaseFailureDialog = new AlertDialog.Builder(this).create();
+            databaseFailureDialog.setCancelable(false);
+            databaseFailureDialog.setTitle("SCES Art Gallery Database Failure");
+            databaseFailureDialog.setMessage("A problem occurred while obtaining the gallery database. Either the database sever could not" +
+                    " reached or the application received unexpected results. \n\nThere maybe an issue with the connection (make sure to be using the UCI network or a VPN), or the database." +
+                    "\n\nThis app cannot display art piece information without obtaining gallery data from the database.");
+            databaseFailureDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Exit", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    finish();
+                }
+            });
+
+            databaseFailureDialog.show();
+
+        }else{
+            Log.d(TAG, "SCES Art Database downloaded!");
+        }
+    }
+
+
     private void doBeaconSearching(){
         beaconManager.setRangingListener(new BeaconManager.RangingListener() {
             String artistName;
@@ -279,36 +310,6 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
         ((TextView) findViewById(beaconID)).setText(beaconIDText);
     }
 
-    @Override
-    public void processFinish(ArrayList<ExhibitPiece> result){
-        /* Callback method for downloading the database from the UCI server.
-            If the database gives no art pieces, then display an error. Else, the database
-            has been successfully downloaded.
-         */
-        piecesList = result;
-
-        if(piecesList.isEmpty()){
-            Log.d(TAG, "Unexpected database result - returned pieces list was empty...");
-            final AlertDialog databaseFailureDialog = new AlertDialog.Builder(this).create();
-            databaseFailureDialog.setCancelable(false);
-            databaseFailureDialog.setTitle("SCES Art Gallery Database Failure");
-            databaseFailureDialog.setMessage("A problem occurred while obtaining the gallery database. Either the database sever could not" +
-                    " reached or the application received unexpected results. \n\nThere maybe an issue with the connection (make sure to be using the UCI network or a VPN), or the database." +
-                    "\n\nThis app cannot display art piece information without obtaining gallery data from the database.");
-            databaseFailureDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Exit", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    finish();
-                }
-            });
-
-            databaseFailureDialog.show();
-
-        }else{
-            Log.d(TAG, "SCES Art Database downloaded!");
-        }
-    }
-
 
     @Override
     protected void onResume() {
@@ -403,12 +404,12 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
         };
 
         /*Uses Picasso library instead of raw image downloading since the library
-            automatically cancels and background downloads should a new download
+            automatically cancels any background downloads should a new download
             be instantiated whilst one is currently in progress - i.e. if new image
             is detected one that is currently downloading will have its download cancelled.
 
             Also, Picasso caches images automatically, so they don't need to be redownloaded
-            each time.
+            each time -- saves bandwidth
          */
         if(imageURL == ""){
             Picasso.with(getApplicationContext()).load(no_image).into(target);

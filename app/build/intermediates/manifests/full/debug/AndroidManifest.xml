@@ -62,7 +62,7 @@
             android:name="com.UciStudentCenterAndEventServices.ArtGallery.ArtBeaconsActivity"
             android:parentActivityName="com.UciStudentCenterAndEventServices.ArtGallery.MainActivity"
             android:screenOrientation="portrait" />
-        <activity android:name="com.UciStudentCenterAndEventServices.ArtGallery.NavigationActivityEstimote" />
+        <activity android:name="com.UciStudentCenterAndEventServices.ArtGallery.NavigationActivity" />
 
         <meta-data
             android:name="com.indooratlas.android.sdk.API_KEY"

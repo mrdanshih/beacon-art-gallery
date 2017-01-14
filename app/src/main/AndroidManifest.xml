@@ -28,7 +28,7 @@
             android:name=".ArtBeaconsActivity"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait"></activity>
-        <activity android:name=".NavigationActivityEstimote"></activity>
+        <activity android:name=".NavigationActivity"></activity>
 
 
         <meta-data

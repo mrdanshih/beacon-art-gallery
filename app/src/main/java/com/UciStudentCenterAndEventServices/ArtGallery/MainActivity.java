@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_new);
+        setContentView(R.layout.activity_main);
 
         locationPermissionCheck();
         turnOnBluetooth();
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
     public void startNavigationActivity(View view){
 //        Intent navIntent = new Intent(this, NavigationActivity.class);
-        Intent navIntent = new Intent(this, NavigationActivityEstimote.class);
+        Intent navIntent = new Intent(this, NavigationActivity.class);
         startActivity(navIntent);
 
 
