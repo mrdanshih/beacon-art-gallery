@@ -2,7 +2,6 @@ package com.UciStudentCenterAndEventServices.ArtGallery;
 
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -11,9 +10,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.estimote.sdk.Beacon;
 import com.estimote.sdk.BeaconManager;
@@ -33,12 +34,12 @@ import java.util.UUID;
 import static com.UciStudentCenterAndEventServices.ArtGallery.R.drawable.nothing_in_range;
 import static com.UciStudentCenterAndEventServices.ArtGallery.R.drawable.no_image;
 import static com.UciStudentCenterAndEventServices.ArtGallery.R.id.beaconID;
-import static com.indooratlas.android.sdk._internal.ff.L;
 
 
 public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConnection.AsyncResponse {
 
     private static final String TAG = "ArtBeaconsActivity";
+    private static final String NOTHING_STR = "NO_RANGE";
 
     private BeaconManager beaconManager;
     private Region region;
@@ -106,6 +107,17 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
 
 
     private void doBeaconSearching(){
+        ToggleButton toggle = (ToggleButton) findViewById(R.id.lockPieceToggle);
+        toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    setNewBeaconNotification("Art Piece Locked");
+                } else {
+                    setNewBeaconNotification("Searching for beacons...");
+                }
+            }
+        });
+
         beaconManager.setRangingListener(new BeaconManager.RangingListener() {
             String artistName;
             String artistInfo;
@@ -121,126 +133,131 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
             @Override
             public void onBeaconsDiscovered(Region region, List<Beacon> beaconList) {
                 //If the list of nearby Beacons is not empty, grab the first nearest beacon.
+                if(!((ToggleButton) findViewById(R.id.lockPieceToggle)).isChecked()) {
+                    if (!beaconList.isEmpty()) {
+                        findViewById(R.id.initialSearchSpinner).setVisibility(View.GONE);
+                        emptyCredibility = 0;
+                        Beacon nearestBeacon = beaconList.iterator().next();
 
-                if(!beaconList.isEmpty()) {
-                    findViewById(R.id.initialSearchSpinner).setVisibility(View.GONE);
-                    emptyCredibility = 0;
-                    Beacon nearestBeacon = beaconList.iterator().next();
 
-
-
-                    if(!nearestBeacon.equals(currentBeacon)){
-                    /*If discovered new closest Beacon...
-                    Basic nothing_in_range "credibility" test - If same new Beacon is seen for 2 cycles,
-                    that Beacon will be seen as a credible new Beacon.
-                    */
-
-                        ExhibitPiece artPiece = getPieceInfo(nearestBeacon);
-
-                        /* Get the art piece info for the closest Beacon
-                        If there is no art piece association, then it will get an ExhibitPiece with
-                        prespecified values for unknown Beacons, allowing for the detection of such
+                        if (!nearestBeacon.equals(currentBeacon)) {
+                        /*If discovered new closest Beacon...
+                        Basic nothing_in_range "credibility" test - If same new Beacon is seen for 2 cycles,
+                        that Beacon will be seen as a credible new Beacon.
                         */
 
+                            ExhibitPiece artPiece = getPieceInfo(nearestBeacon);
 
-                        if(nearestBeacon.equals(previousClosest)){
-                            /* Credibility check. If the closest Beacon in this cycle is the same as the
-                            Beacon in the last cycle, then increase the credibility rating.
-                            If the credibility rating is high enough (seen same new Beacon for 3 cycles),
-                            then it is now the current art piece.
-                             */
-                            if(beaconCredibility == 2) {
-                                beaconCredibility = 0;
-
-                                currentBeacon = nearestBeacon;
-
-                          
-                                Log.d(TAG, "Credible new Beacon: " + nearestBeacon.getMajor());
-
-                                artistName = artPiece.artistName;
-                                artistInfo = artPiece.artistBlurb;
-                                pieceTitle = artPiece.title;
-                                pieceInfo = artPiece.blurb;
-                                beaconID = nearestBeacon.getMajor() + "";
-                                imageURL = artPiece.pictureUrl;
-
-                                //Sets the displayed Beacon info on the UI
-                                setExpandableInfoVisiblity(View.VISIBLE);
-                                setDisplayedPieceInfo(artistName, artistInfo, pieceTitle, pieceInfo, beaconID, imageURL);
+                            /* Get the art piece info for the closest Beacon
+                            If there is no art piece association, then it will get an ExhibitPiece with
+                            prespecified values for unknown Beacons, allowing for the detection of such
+                            */
 
 
-                            }else{
-                                beaconCredibility++;
-                                Log.d(TAG, "Updating credibility of " + nearestBeacon.getMajor() + " to " + beaconCredibility);
-                            }
+                            if (nearestBeacon.equals(previousClosest)) {
+                                /* Credibility check. If the closest Beacon in this cycle is the same as the
+                                Beacon in the last cycle, then increase the credibility rating.
+                                If the credibility rating is high enough (seen same new Beacon for 3 cycles),
+                                then it is now the current art piece.
+                                 */
+                                if (beaconCredibility == 0) {
+                                    beaconCredibility = 0;
 
-                        }else{
-                            /* Detection of new Beacons different from the last seen closest Beacon.
-                                If it's not an art piece, then the app will display the major ID at
-                                the bottom of the screen. If it's an art piece, the app will display
-                                the name (up to 10 chars) of the new art piece that was detected
-                             */
+                                    currentBeacon = nearestBeacon;
 
-                            Log.d(TAG, "New Beacon: " + nearestBeacon.getMajor());
-                            String beaconNameOrID = "";
 
-                            if(artPiece.title.equals("Unknown Piece")){
-                                beaconNameOrID = nearestBeacon.getMajor() + "";
-                            }else{
-                                if(artPiece.title.length() < 10){
-                                    beaconNameOrID = "\"" + artPiece.title + "\"";
-                                }else{
-                                    beaconNameOrID = "\"" + artPiece.title.substring(0, 10) +"...\"";
+                                    Log.d(TAG, "Credible new Beacon: " + nearestBeacon.getMajor());
+
+                                    artistName = artPiece.artistName;
+                                    artistInfo = artPiece.artistBlurb;
+                                    pieceTitle = artPiece.title;
+                                    pieceInfo = artPiece.blurb;
+                                    beaconID = nearestBeacon.getMajor() + "";
+                                    imageURL = artPiece.pictureUrl;
+
+                                    //Sets the displayed Beacon info on the UI
+                                    setSubtitleVisibility(View.GONE);
+                                    setInfoAndLockVisiblity(View.VISIBLE);
+                                    setDisplayedPieceInfo(artistName, artistInfo, pieceTitle, pieceInfo, beaconID, imageURL);
+
+
+                                } else {
+                                    beaconCredibility++;
+                                    Log.d(TAG, "Updating credibility of " + nearestBeacon.getMajor() + " to " + beaconCredibility);
                                 }
 
+                            } else {
+                                /* Detection of new Beacons different from the last seen closest Beacon.
+                                    If it's not an art piece, then the app will display the major ID at
+                                    the bottom of the screen. If it's an art piece, the app will display
+                                    the name (up to 10 chars) of the new art piece that was detected
+                                 */
+
+                                Log.d(TAG, "New Beacon: " + nearestBeacon.getMajor());
+                                String beaconNameOrID = "";
+
+                                if (artPiece.title.equals("Unknown Piece")) {
+                                    beaconNameOrID = nearestBeacon.getMajor() + "";
+                                } else {
+                                    if (artPiece.title.length() < 10) {
+                                        beaconNameOrID = "\"" + artPiece.title + "\"";
+                                    } else {
+                                        beaconNameOrID = "\"" + artPiece.title.substring(0, 10) + "...\"";
+                                    }
+
+                                }
+
+                                final String newID = "Found " + beaconNameOrID + " as new closest art piece...";
+                                setNewBeaconNotification(newID);
+
+                                beaconCredibility = 0;
+                                previousClosest = nearestBeacon;
                             }
 
-                            final String newID = "Found " + beaconNameOrID + " as new closest art piece...";
-                            setNewBeaconNotification(newID);
 
-                            beaconCredibility = 0;
+                            //If it's the same nearest beacon, no need to do anything!
+                        } else {
+                            Log.d(TAG, "Same beacon: Major ID is " + nearestBeacon.getMajor());
+
+                            setNewBeaconNotification(beaconID);
+
                             previousClosest = nearestBeacon;
+
                         }
 
 
-                        //If it's the same nearest beacon, no need to do anything!
-                    }else{
-                        Log.d(TAG, "Same beacon: Major ID is " + nearestBeacon.getMajor());
+                    } else if (emptyCredibility == 3) {
+                        /*If no Beacons seen for 4 cycles, then update the current display
+                            to show that no beacons have been detected.
+                         */
+                        findViewById(R.id.initialSearchSpinner).setVisibility(View.VISIBLE);
+                        beaconCredibility = 0;
+                        emptyCredibility = 0;
+                        currentBeacon = null;
 
-                        setNewBeaconNotification(beaconID);
+                        Log.d(TAG, "No beacons in range for 3 cycles!");
 
-                        previousClosest = nearestBeacon;
+                        artistName = "No art piece in range!";
+                        artistInfo = "";
+                        pieceTitle = "Walk up to an art piece.";
+                        pieceInfo = "Searching for art piece beacons...";
+                        beaconID = "";
+                        imageURL = NOTHING_STR;
+                        setSubtitleVisibility(View.VISIBLE);
+                        setInfoAndLockVisiblity(View.GONE);
+                        setDisplayedPieceInfo(artistName, artistInfo, pieceTitle, pieceInfo, beaconID, imageURL);
+                        setNewBeaconNotification("Searching for beacons...");
+
+
+                    } else {
+                        emptyCredibility++;
+                        Log.d(TAG, "No beacons in range... for " + emptyCredibility + " cycles");
 
                     }
-
-
-                }else if(emptyCredibility == 3){
-                    /*If no Beacons seen for 4 cycles, then update the current display
-                        to show that no beacons have been detected.
-                     */
-                    findViewById(R.id.initialSearchSpinner).setVisibility(View.VISIBLE);
-                    beaconCredibility = 0;
-                    emptyCredibility = 0;
-                    currentBeacon = null;
-
-                    Log.d(TAG, "No beacons in range for 3 cycles!");
-
-                    artistName = "No art piece in range!";
-                    artistInfo = "";
-                    pieceTitle = "Walk up to an art piece.";
-                    pieceInfo = "Searching for art piece beacons...";
-                    beaconID = "";
-                    imageURL = null;
-
-                    setExpandableInfoVisiblity(View.GONE);
-                    setDisplayedPieceInfo(artistName, artistInfo, pieceTitle, pieceInfo, beaconID, imageURL);
-                    setNewBeaconNotification("Searching for beacons...");
-
                 }else{
-                    emptyCredibility++;
-                    Log.d(TAG, "No beacons in range... for " + emptyCredibility + " cycles");
-
+                    Log.d(TAG, "User has locked current art piece: " + beaconID);
                 }
+
             }
         });
 
@@ -248,12 +265,24 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
         
     }
 
-    private void setExpandableInfoVisiblity(final int visibility){
+    private void setSubtitleVisibility(final int visibility){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                TextView walkText = (TextView) (findViewById(R.id.artistName));
+                walkText.setVisibility(visibility);
+            }
+        });
+    }
+
+    private void setInfoAndLockVisiblity(final int visibility){
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 ScrollView expandableInfoView = (ScrollView) (findViewById(R.id.expandable_info));
+                ToggleButton lockToggle = (ToggleButton) (findViewById(R.id.lockPieceToggle));
 
+                lockToggle.setVisibility(visibility);
                 expandableInfoView.setVisibility(visibility);
             }
         });
@@ -276,21 +305,11 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if(imageURL != null){
-//                    DownloadDisplayImageTask task = new DownloadDisplayImageTask((ImageView) findViewById(R.id.artPieceImage));
-//                    task.execute(imageURL);
-                    loadImage((ImageView) findViewById(R.id.artPieceImage), imageURL);
-
-
-                }else{
-                    ImageView imageView = (ImageView) findViewById(R.id.artPieceImage);
-                    imageView.setImageResource(nothing_in_range);
-                }
-
+                loadImage((ImageView) findViewById(R.id.artPieceImage), imageURL);
 
                 ((TextView) findViewById(R.id.artPieceName)).setText(pieceTitle);
                 ((TextView) findViewById(R.id.artistName)).setText(artistName);
-                ((TextView) findViewById(R.id.artistInfoView).findViewById(R.id.title)).setText("About the artist");
+                ((TextView) findViewById(R.id.artistInfoView).findViewById(R.id.title)).setText("About " + artistName + ", the artist");
                 ((TextView) findViewById(R.id.artworkInfoView).findViewById(R.id.title)).setText("About the piece");
 
                 ExpandableTextView artistNameExpandable = (ExpandableTextView) findViewById(R.id.artistInfoView).findViewById(R.id.expand_text_view);
@@ -411,10 +430,12 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
             Also, Picasso caches images automatically, so they don't need to be redownloaded
             each time -- saves bandwidth
          */
-        if(imageURL == ""){
+        if(imageURL.equals("")){
             Picasso.with(getApplicationContext()).load(no_image).into(target);
+        }else if(imageURL.equals(NOTHING_STR)) {
+            Picasso.with(getApplicationContext()).load(R.drawable.nothing_in_range).into(view);
         }else{
-            Picasso.with(getApplicationContext()).load(imageURL).error(no_image).into(target);
+            Picasso.with(getApplicationContext()).load(imageURL).error(R.drawable.no_image).into(target);
         }
     }
     /*

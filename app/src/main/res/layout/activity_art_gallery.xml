@@ -134,6 +134,21 @@
             android:layout_centerHorizontal="true"
             android:text="Searching for Beacons..." />
 
+        <ToggleButton
+            android:text="LockPiece"
+            android:layout_width="154dp"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/beaconID"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/lockPieceToggle"
+            android:textOn="Unlock Piece"
+            android:textOff="Lock Piece"
+            android:textColor="@color/white"
+            android:layout_marginLeft="130dp"
+            android:layout_marginRight="100dp"
+            android:layout_marginTop="2dp"
+            android:visibility="gone" />
+
         <ProgressBar
             style="@android:style/Widget.Material.Light.ProgressBar"
             android:layout_width="match_parent"
