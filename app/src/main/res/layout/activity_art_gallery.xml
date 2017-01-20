@@ -136,7 +136,7 @@
 
         <ToggleButton
             android:text="LockPiece"
-            android:layout_width="154dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@+id/beaconID"
             android:layout_centerHorizontal="true"

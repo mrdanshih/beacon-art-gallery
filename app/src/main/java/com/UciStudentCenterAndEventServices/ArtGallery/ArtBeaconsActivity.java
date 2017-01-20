@@ -59,6 +59,7 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
         setSupportActionBar(toolbar);
         getSupportActionBar().setElevation(5);
 
+
         try {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -135,7 +136,6 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
                 //If the list of nearby Beacons is not empty, grab the first nearest beacon.
                 if(!((ToggleButton) findViewById(R.id.lockPieceToggle)).isChecked()) {
                     if (!beaconList.isEmpty()) {
-                        findViewById(R.id.initialSearchSpinner).setVisibility(View.GONE);
                         emptyCredibility = 0;
                         Beacon nearestBeacon = beaconList.iterator().next();
 
@@ -160,8 +160,13 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
                                 If the credibility rating is high enough (seen same new Beacon for 3 cycles),
                                 then it is now the current art piece.
                                  */
+
+                                //Removed credibility check, since lock mechanism is now in place
+                                //Code left like this in case changes are to be made in the future
                                 if (beaconCredibility == 0) {
                                     beaconCredibility = 0;
+
+                                    findViewById(R.id.initialSearchSpinner).setVisibility(View.GONE);
 
                                     currentBeacon = nearestBeacon;
 

@@ -92,6 +92,10 @@
         "source": "/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/res/drawable/abc_list_selector_background_transition_holo_light.xml"
     },
     {
+        "merged": "/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/res/merged/debug/drawable/lockicon.png",
+        "source": "/Users/danielshih/AndroidStudioProjects/ArtGallery/app/src/main/res/drawable/lockicon.png"
+    },
+    {
         "merged": "/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/res/merged/debug/drawable/navigation.png",
         "source": "/Users/danielshih/AndroidStudioProjects/ArtGallery/app/src/main/res/drawable/navigation.png"
     },
@@ -126,6 +130,10 @@
     {
         "merged": "/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/res/merged/debug/drawable/abc_list_selector_holo_dark.xml",
         "source": "/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/res/drawable/abc_list_selector_holo_dark.xml"
+    },
+    {
+        "merged": "/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/res/merged/debug/drawable/unlockicon.png",
+        "source": "/Users/danielshih/AndroidStudioProjects/ArtGallery/app/src/main/res/drawable/unlockicon.png"
     },
     {
         "merged": "/Users/danielshih/AndroidStudioProjects/ArtGallery/app/build/intermediates/res/merged/debug/drawable/ic_expand_holo_light.xml",
