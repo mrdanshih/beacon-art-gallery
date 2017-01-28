@@ -3,7 +3,6 @@ package com.UciStudentCenterAndEventServices.ArtGallery;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -24,14 +23,10 @@ import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
-import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static com.UciStudentCenterAndEventServices.ArtGallery.R.drawable.nothing_in_range;
 import static com.UciStudentCenterAndEventServices.ArtGallery.R.drawable.no_image;
 import static com.UciStudentCenterAndEventServices.ArtGallery.R.id.beaconID;
 
@@ -112,12 +107,18 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
         toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
+                    setSubtitleVisibility(View.GONE);
+                    setInfoVisibility(View.VISIBLE);
                     setNewBeaconNotification("Art Piece Locked");
                 } else {
+                    setSubtitleVisibility(View.VISIBLE);
+                    setInfoVisibility(View.GONE);
                     setNewBeaconNotification("Searching for beacons...");
                 }
             }
         });
+
+        setInfoVisibility(View.GONE);
 
         beaconManager.setRangingListener(new BeaconManager.RangingListener() {
             String artistName;
@@ -181,8 +182,8 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
                                     imageURL = artPiece.pictureUrl;
 
                                     //Sets the displayed Beacon info on the UI
-                                    setSubtitleVisibility(View.GONE);
-                                    setInfoAndLockVisiblity(View.VISIBLE);
+//                                    setSubtitleVisibility(View.GONE);
+                                    setLockVisiblity(View.VISIBLE);
                                     setDisplayedPieceInfo(artistName, artistInfo, pieceTitle, pieceInfo, beaconID, imageURL);
 
 
@@ -249,7 +250,7 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
                         beaconID = "";
                         imageURL = NOTHING_STR;
                         setSubtitleVisibility(View.VISIBLE);
-                        setInfoAndLockVisiblity(View.GONE);
+                        setLockVisiblity(View.GONE);
                         setDisplayedPieceInfo(artistName, artistInfo, pieceTitle, pieceInfo, beaconID, imageURL);
                         setNewBeaconNotification("Searching for beacons...");
 
@@ -275,20 +276,47 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
             @Override
             public void run() {
                 TextView walkText = (TextView) (findViewById(R.id.artistName));
-                walkText.setVisibility(visibility);
+
+                if(visibility == View.VISIBLE){
+                    walkText.setVisibility(visibility);
+                    Transitions.fadeInView(walkText);
+                }else{
+                    Transitions.fadeOutView(walkText);
+                    walkText.setVisibility(visibility);
+
+                }
+
             }
         });
     }
 
-    private void setInfoAndLockVisiblity(final int visibility){
+    private void setInfoVisibility(final int visibility){
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 ScrollView expandableInfoView = (ScrollView) (findViewById(R.id.expandable_info));
+
+                if(visibility == View.VISIBLE){
+                    expandableInfoView.setVisibility(visibility);
+                    Transitions.fadeInView(expandableInfoView);
+                }else{
+                    Transitions.fadeOutView(expandableInfoView);
+                    expandableInfoView.setVisibility(visibility);
+
+                }
+
+
+            }
+        });
+    }
+
+    private void setLockVisiblity(final int visibility){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
                 ToggleButton lockToggle = (ToggleButton) (findViewById(R.id.lockPieceToggle));
 
                 lockToggle.setVisibility(visibility);
-                expandableInfoView.setVisibility(visibility);
             }
         });
     }
@@ -410,7 +438,7 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
                 view.setImageBitmap(bitmap);
 
                 view.setVisibility(View.VISIBLE);
-                Transitions.fadeInImage(view);
+                Transitions.fadeInView(view);
                 findViewById(R.id.loadImageSpinner).setVisibility(View.INVISIBLE);
 
             }
@@ -420,7 +448,7 @@ public class ArtBeaconsActivity extends AppCompatActivity implements ExhibitConn
 
             @Override
             public void onPrepareLoad(Drawable placeHolderDrawable) {
-                Transitions.fadeOutImage(view);
+                Transitions.fadeOutView(view);
                 view.setVisibility(View.INVISIBLE);
 
                 findViewById(R.id.loadImageSpinner).setVisibility(View.VISIBLE);
