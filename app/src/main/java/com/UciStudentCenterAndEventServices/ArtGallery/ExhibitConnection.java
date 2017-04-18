@@ -5,15 +5,17 @@ import android.util.Log;
 
 import com.google.gson.*;
 import java.io.*;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 
+import static java.lang.System.in;
 
 
 public class ExhibitConnection extends AsyncTask<Void, Void, ArrayList<ExhibitPiece>>{
     private static final String TAG = "ExhibitConnection";
-    final static String DATABASE_URL = "http://aladdin.studentcenter.uci.edu/ArtWebApi/api/Artwork/GetAssociatedArtwork";
+    final static String DATABASE_URL = "http://ad-sc-webdev01.ad.uci.edu/ArtWebApi/api/Artwork/GetAssociatedArtwork";
 
     public interface AsyncResponse{
         void processFinish(ArrayList<ExhibitPiece> output);
@@ -39,7 +41,6 @@ public class ExhibitConnection extends AsyncTask<Void, Void, ArrayList<ExhibitPi
     /** Returns an ArrayList of ExhibitPieces by obtaining a JsonArray from the database and parsing it */
     private static ArrayList<ExhibitPiece> getExhibitInfo(){
         ArrayList<ExhibitPiece> piecesList = new ArrayList<ExhibitPiece>();
-
         //Gets the JsonArray
         JsonArray exhibitArray = getJsonArray();
 
@@ -68,7 +69,6 @@ public class ExhibitConnection extends AsyncTask<Void, Void, ArrayList<ExhibitPi
 
             }
         }
-
         return piecesList;
     }
 
@@ -81,7 +81,7 @@ public class ExhibitConnection extends AsyncTask<Void, Void, ArrayList<ExhibitPi
 
         try {
             URL databaseURL = new URL(DATABASE_URL);
-            URLConnection connection = databaseURL.openConnection();
+            HttpURLConnection connection = (HttpURLConnection) databaseURL.openConnection();
 
             InputStream in = connection.getInputStream();
             BufferedReader reader = new BufferedReader(new InputStreamReader(in));
@@ -95,8 +95,8 @@ public class ExhibitConnection extends AsyncTask<Void, Void, ArrayList<ExhibitPi
             }
 
             JsonElement jelement = new JsonParser().parse(response);
-            jarray = jelement.getAsJsonArray();
 
+            jarray = jelement.getAsJsonArray();
             Log.d(TAG, "Got exhibit info!");
 
 
@@ -106,6 +106,7 @@ public class ExhibitConnection extends AsyncTask<Void, Void, ArrayList<ExhibitPi
             e.printStackTrace();
 
         }
+
 
         return jarray;
 
